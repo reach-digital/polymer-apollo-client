@@ -1,0 +1,50 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html"/>
+<link rel="import" href="../graphql-query.html"/>
+
+<dom-module id="demo-two">
+
+  <template>
+    <h2>Demo 2: Load data deferred and show the changing of variables.</h2>
+
+    <graphql-query result="{{data}}" variables='[[variables]]' defer>
+      query Starships($first: Int!) {
+        allStarships(first: $first) {
+          name
+          class
+        }
+      }
+    </graphql-query>
+
+    <ul>
+      <template is="dom-repeat" items="[[data.allStarships]]">
+        <li>[[item.name]] ([[item.class]])</li>
+      </template>
+    </ul>
+
+    <button on-tap="loadMore">Load More</button>
+
+  </template>
+  <script>
+    class DemoTwo extends Polymer.Element {
+      static get is() { return 'demo-two'; }
+      static get properties() {
+        return {
+          loading: Boolean,
+          loaded: Boolean,
+          variables: {
+            type: Object,
+            reflectToAttribute: true, //For demonstration purposes only, no need to reflect to attribute
+            value: {
+              first: 2
+            }
+          }
+        }
+      }
+      loadMore() {
+        //Since the reference to an object stays the same after setting a variable we need to create a new object.
+        this.variables = Object.assign({}, this.variables, {first: this.variables.first + 2});
+      }
+    }
+    customElements.define(DemoTwo.is, DemoTwo);
+  </script>
+</dom-module>

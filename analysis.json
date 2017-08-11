@@ -1,0 +1,1424 @@
+{
+  "schema_version": "1.0.0",
+  "elements": [
+    {
+      "description": "# GraphQL Client\n\nYou can set up a connection to you graphql-client backend with `graphql-client`.\n\n## Installation\n\n### Include the build/apollo-client.js in your website for a default setup.\n\n```html\n<script src=\"bower_components/apollo-client/build/apollo-client.js\"></script>\n```\n\n### Create a single instance of the graphql-client.html\n\n```html\n<link rel=\"import\" href=\"apollo-client/graphql-client.html\" />\n```\n\n```html\n<graphql-client config='{ \"uri\": \"https://graphql.endpoint/graphql\" }'></graphql-client>\n```\n\nThis will (by default) create an instance of Apollo Client with a [BatchedNetworkInterface](http://dev.apollodata.com/core/network.html#BatchingExample).\n\n## Custom Apollo Client\n\nYou can omit this html element completely if you make sure `window.Apollo.client` and `window.Apollo.gql` is available.\n\n- `window.Apollo.client` an instance of ApolloClient\n- `window.Apollo.gql` an export of `graphql-tag`\n\nFor an example how to set this up, take a look at [apollo-client.js](apollo-client.js).",
+      "summary": "",
+      "path": "graphql-client.html",
+      "properties": [
+        {
+          "name": "config",
+          "type": "Object",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 54,
+              "column": 10
+            },
+            "end": {
+              "line": 54,
+              "column": 24
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "clientName",
+          "type": "string",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 55,
+              "column": 10
+            },
+            "end": {
+              "line": 58,
+              "column": 11
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "connectedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 62,
+              "column": 6
+            },
+            "end": {
+              "line": 71,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": []
+        }
+      ],
+      "staticMethods": [],
+      "demos": [
+        {
+          "url": "demo/index.html",
+          "description": ""
+        }
+      ],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 50,
+          "column": 4
+        },
+        "end": {
+          "line": 72,
+          "column": 5
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "name": "GraphqlClient",
+      "attributes": [
+        {
+          "name": "config",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 54,
+              "column": 10
+            },
+            "end": {
+              "line": 54,
+              "column": 24
+            }
+          },
+          "metadata": {},
+          "type": "Object"
+        },
+        {
+          "name": "client-name",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 55,
+              "column": 10
+            },
+            "end": {
+              "line": 58,
+              "column": 11
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        }
+      ],
+      "events": [],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "graphql-client"
+    },
+    {
+      "description": "# Graphql Query\n\nAn easy interface to create GraphQL queries in your system.\n\n## Building a query\n\n```html\n<link rel=\"import\" src=\"graphql-client.html\">\n```\n\n```html\n<graphql-query variables='{ \"identifier\": \"home_hero\" }' result=\"{{result}}\">\n  query ($identifier: String!) {\n    block: Block(identifier: $identifier) {\n      id\n      title\n      content\n    }\n  }\n</graphql-query>\n```\n\nThe __query__ you want to run becomes the body of the graphql-query element. you can provide additional variables as a\nJSON object.\n\nWhen the query resolves the resulting data will be placed in the result property.\n\n## Using the result:\n```html\n<h1>[[result.block.title]]</h1>\n<div class=\"content\">[[result.block.content]]</div>\n```\n\nChanging the variables or the query will automatically re-fetch all the information.\n\n## Detecting loading states\n\nThe query element implements the MatryoshkaLoaderMixin and thus propagates the loading state of the query throughout the system",
+      "summary": "",
+      "path": "graphql-query.html",
+      "properties": [
+        {
+          "name": "query",
+          "type": "Object",
+          "description": "Copy of the query provided in this.innerText, if you want to programmatically change the query use\n`this.innerText`",
+          "privacy": "private",
+          "sourceRange": {
+            "start": {
+              "line": 57,
+              "column": 8
+            },
+            "end": {
+              "line": 59,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "variables",
+          "type": "Object",
+          "description": "JSON Object of the variables passed with the query",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 63,
+              "column": 8
+            },
+            "end": {
+              "line": 66,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "{}"
+        },
+        {
+          "name": "fetchPolicy",
+          "type": "string",
+          "description": "Set the fetchPolicy of the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchPolicy)",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 71,
+              "column": 8
+            },
+            "end": {
+              "line": 73,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "pollInterval",
+          "type": "number",
+          "description": "Set the pollInterval.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-pollInterval)",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 80,
+              "column": 8
+            },
+            "end": {
+              "line": 82,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "notifyOnNetworkStatusChange",
+          "type": "boolean",
+          "description": "Whether or not updates to the network status or network error should trigger re-rendering of your component.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-notifyOnNetworkStatusChange)",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 89,
+              "column": 8
+            },
+            "end": {
+              "line": 91,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "requiredVariables",
+          "type": "Object",
+          "description": "It is used to halt the execution of the query when not all the variables are provided yet.",
+          "privacy": "private",
+          "sourceRange": {
+            "start": {
+              "line": 96,
+              "column": 8
+            },
+            "end": {
+              "line": 99,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "readOnly": true
+            }
+          }
+        },
+        {
+          "name": "defer",
+          "type": "boolean",
+          "description": "This allows you to defer the query until a later moment using Polymer.Async.idlePeriod. This solves an issue\nwith rendering critical data first an deferring non-critical information to a later moment.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 104,
+              "column": 8
+            },
+            "end": {
+              "line": 107,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "false"
+        },
+        {
+          "name": "hold",
+          "type": "boolean",
+          "description": "When this is set to `true` it will not execute the query when the properties query+variables+defer have a\nvalue. To run the query set hold to `false` or run execute()\n\nYou might want to set hostLoading to false when you do this.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 114,
+              "column": 8
+            },
+            "end": {
+              "line": 117,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "false"
+        },
+        {
+          "name": "result",
+          "type": "Object",
+          "description": "Object of the resulting data of the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/queries.html#default-result-props)",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 122,
+              "column": 8
+            },
+            "end": {
+              "line": 125,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "notify": true
+            }
+          }
+        },
+        {
+          "name": "hostLoading",
+          "type": "?",
+          "description": "Sets the default value of hostLoading to true, this means this element will always propagate that it is\nloading.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 132,
+              "column": 8
+            },
+            "end": {
+              "line": 134,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "true"
+        },
+        {
+          "name": "clientName",
+          "type": "?",
+          "description": "With the support of handling multiple endpoints",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 139,
+              "column": 8
+            },
+            "end": {
+              "line": 141,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "connectedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 161,
+              "column": 4
+            },
+            "end": {
+              "line": 166,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "_onRunQuery",
+          "description": "Actual method to fetch all the data. This is called when on of the properties: query, variables, defer or hold is changed.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 172,
+              "column": 4
+            },
+            "end": {
+              "line": 186,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "defer"
+            },
+            {
+              "name": "hold"
+            }
+          ]
+        },
+        {
+          "name": "validate",
+          "description": "Validate if all the required properties are properly filled in and return the error if there is something wrong.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 192,
+              "column": 4
+            },
+            "end": {
+              "line": 230,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "Object"
+          }
+        },
+        {
+          "name": "execute",
+          "description": "Execute the query/mutation directly (used in combination with hold or with graphql-mutation)",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 237,
+              "column": 4
+            },
+            "end": {
+              "line": 259,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "ObservableQuery"
+          }
+        },
+        {
+          "name": "_computeRequiredVariables",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 261,
+              "column": 4
+            },
+            "end": {
+              "line": 274,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "query"
+            }
+          ]
+        },
+        {
+          "name": "_updateQuery",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 276,
+              "column": 4
+            },
+            "end": {
+              "line": 283,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "_getClient",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 285,
+              "column": 4
+            },
+            "end": {
+              "line": 287,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": []
+        }
+      ],
+      "staticMethods": [],
+      "demos": [
+        {
+          "url": "demo/index.html",
+          "description": ""
+        }
+      ],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 48,
+          "column": 2
+        },
+        "end": {
+          "line": 288,
+          "column": 3
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "name": "GraphQLQuery",
+      "attributes": [
+        {
+          "name": "variables",
+          "description": "JSON Object of the variables passed with the query",
+          "sourceRange": {
+            "start": {
+              "line": 63,
+              "column": 8
+            },
+            "end": {
+              "line": 66,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "Object"
+        },
+        {
+          "name": "fetch-policy",
+          "description": "Set the fetchPolicy of the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchPolicy)",
+          "sourceRange": {
+            "start": {
+              "line": 71,
+              "column": 8
+            },
+            "end": {
+              "line": 73,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "poll-interval",
+          "description": "Set the pollInterval.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-pollInterval)",
+          "sourceRange": {
+            "start": {
+              "line": 80,
+              "column": 8
+            },
+            "end": {
+              "line": 82,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "number"
+        },
+        {
+          "name": "notify-on-network-status-change",
+          "description": "Whether or not updates to the network status or network error should trigger re-rendering of your component.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-notifyOnNetworkStatusChange)",
+          "sourceRange": {
+            "start": {
+              "line": 89,
+              "column": 8
+            },
+            "end": {
+              "line": 91,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "boolean"
+        },
+        {
+          "name": "defer",
+          "description": "This allows you to defer the query until a later moment using Polymer.Async.idlePeriod. This solves an issue\nwith rendering critical data first an deferring non-critical information to a later moment.",
+          "sourceRange": {
+            "start": {
+              "line": 104,
+              "column": 8
+            },
+            "end": {
+              "line": 107,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "boolean"
+        },
+        {
+          "name": "hold",
+          "description": "When this is set to `true` it will not execute the query when the properties query+variables+defer have a\nvalue. To run the query set hold to `false` or run execute()\n\nYou might want to set hostLoading to false when you do this.",
+          "sourceRange": {
+            "start": {
+              "line": 114,
+              "column": 8
+            },
+            "end": {
+              "line": 117,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "boolean"
+        },
+        {
+          "name": "result",
+          "description": "Object of the resulting data of the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/queries.html#default-result-props)",
+          "sourceRange": {
+            "start": {
+              "line": 122,
+              "column": 8
+            },
+            "end": {
+              "line": 125,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "Object"
+        },
+        {
+          "name": "client-name",
+          "description": "With the support of handling multiple endpoints",
+          "sourceRange": {
+            "start": {
+              "line": 139,
+              "column": 8
+            },
+            "end": {
+              "line": 141,
+              "column": 9
+            }
+          },
+          "metadata": {}
+        }
+      ],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "result-changed",
+          "description": "Fired when the `result` property changes.",
+          "metadata": {}
+        }
+      ],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "graphql-query"
+    },
+    {
+      "description": "",
+      "summary": "",
+      "path": "graphql-mutation.html",
+      "properties": [
+        {
+          "name": "query",
+          "type": "Object",
+          "description": "Copy of the query provided in this.innerText, if you want to programmatically change the query use\n`this.innerText`",
+          "privacy": "private",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 57,
+              "column": 8
+            },
+            "end": {
+              "line": 59,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "variables",
+          "type": "Object",
+          "description": "JSON Object of the variables passed with the query",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 63,
+              "column": 8
+            },
+            "end": {
+              "line": 66,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "{}",
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "fetchPolicy",
+          "type": "string",
+          "description": "Set the fetchPolicy of the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchPolicy)",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 71,
+              "column": 8
+            },
+            "end": {
+              "line": 73,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "pollInterval",
+          "type": "number",
+          "description": "Set the pollInterval.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-pollInterval)",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 80,
+              "column": 8
+            },
+            "end": {
+              "line": 82,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "notifyOnNetworkStatusChange",
+          "type": "boolean",
+          "description": "Whether or not updates to the network status or network error should trigger re-rendering of your component.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-notifyOnNetworkStatusChange)",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 89,
+              "column": 8
+            },
+            "end": {
+              "line": 91,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "requiredVariables",
+          "type": "Object",
+          "description": "It is used to halt the execution of the query when not all the variables are provided yet.",
+          "privacy": "private",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 96,
+              "column": 8
+            },
+            "end": {
+              "line": 99,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "readOnly": true
+            }
+          },
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "defer",
+          "type": "boolean",
+          "description": "This allows you to defer the query until a later moment using Polymer.Async.idlePeriod. This solves an issue\nwith rendering critical data first an deferring non-critical information to a later moment.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 104,
+              "column": 8
+            },
+            "end": {
+              "line": 107,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "false",
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "hold",
+          "type": "?",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 7,
+              "column": 8
+            },
+            "end": {
+              "line": 9,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "true"
+        },
+        {
+          "name": "result",
+          "type": "Object",
+          "description": "Object of the resulting data of the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/queries.html#default-result-props)",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 122,
+              "column": 8
+            },
+            "end": {
+              "line": 125,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "notify": true
+            }
+          },
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "hostLoading",
+          "type": "?",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 10,
+              "column": 8
+            },
+            "end": {
+              "line": 12,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "false"
+        },
+        {
+          "name": "clientName",
+          "type": "?",
+          "description": "With the support of handling multiple endpoints",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 139,
+              "column": 8
+            },
+            "end": {
+              "line": 141,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "inheritedFrom": "GraphQLQuery"
+        }
+      ],
+      "methods": [
+        {
+          "name": "connectedCallback",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 161,
+              "column": 4
+            },
+            "end": {
+              "line": 166,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "_onRunQuery",
+          "description": "Actual method to fetch all the data. This is called when on of the properties: query, variables, defer or hold is changed.",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 172,
+              "column": 4
+            },
+            "end": {
+              "line": 186,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "defer"
+            },
+            {
+              "name": "hold"
+            }
+          ],
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "validate",
+          "description": "Validate if all the required properties are properly filled in and return the error if there is something wrong.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 192,
+              "column": 4
+            },
+            "end": {
+              "line": 230,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "Object"
+          },
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "execute",
+          "description": "Execute the query/mutation directly (used in combination with hold or with graphql-mutation)",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 21,
+              "column": 4
+            },
+            "end": {
+              "line": 39,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "Promise"
+          }
+        },
+        {
+          "name": "_computeRequiredVariables",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 261,
+              "column": 4
+            },
+            "end": {
+              "line": 274,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "query"
+            }
+          ],
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "_updateQuery",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 276,
+              "column": 4
+            },
+            "end": {
+              "line": 283,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "_getClient",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 285,
+              "column": 4
+            },
+            "end": {
+              "line": 287,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "inheritedFrom": "GraphQLQuery"
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 3,
+          "column": 2
+        },
+        "end": {
+          "line": 40,
+          "column": 3
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "name": "GraphQLMutation",
+      "attributes": [
+        {
+          "name": "variables",
+          "description": "JSON Object of the variables passed with the query",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 63,
+              "column": 8
+            },
+            "end": {
+              "line": 66,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "Object",
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "fetch-policy",
+          "description": "Set the fetchPolicy of the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchPolicy)",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 71,
+              "column": 8
+            },
+            "end": {
+              "line": 73,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string",
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "poll-interval",
+          "description": "Set the pollInterval.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-pollInterval)",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 80,
+              "column": 8
+            },
+            "end": {
+              "line": 82,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "number",
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "notify-on-network-status-change",
+          "description": "Whether or not updates to the network status or network error should trigger re-rendering of your component.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-notifyOnNetworkStatusChange)",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 89,
+              "column": 8
+            },
+            "end": {
+              "line": 91,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "boolean",
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "defer",
+          "description": "This allows you to defer the query until a later moment using Polymer.Async.idlePeriod. This solves an issue\nwith rendering critical data first an deferring non-critical information to a later moment.",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 104,
+              "column": 8
+            },
+            "end": {
+              "line": 107,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "boolean",
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "hold",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 7,
+              "column": 8
+            },
+            "end": {
+              "line": 9,
+              "column": 9
+            }
+          },
+          "metadata": {}
+        },
+        {
+          "name": "result",
+          "description": "Object of the resulting data of the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/queries.html#default-result-props)",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 122,
+              "column": 8
+            },
+            "end": {
+              "line": 125,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "Object",
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "client-name",
+          "description": "With the support of handling multiple endpoints",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 139,
+              "column": 8
+            },
+            "end": {
+              "line": 141,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "host-loading",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 10,
+              "column": 8
+            },
+            "end": {
+              "line": 12,
+              "column": 9
+            }
+          },
+          "metadata": {}
+        }
+      ],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "result-changed",
+          "description": "Fired when the `result` property changes.",
+          "metadata": {},
+          "inheritedFrom": "GraphQLQuery"
+        }
+      ],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "graphql-mutation"
+    },
+    {
+      "description": "",
+      "summary": "",
+      "path": "demo/demo-one.html",
+      "properties": [],
+      "methods": [],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 20,
+          "column": 4
+        },
+        "end": {
+          "line": 22,
+          "column": 5
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "name": "DemoOne",
+      "attributes": [],
+      "events": [],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "demo-one"
+    },
+    {
+      "description": "",
+      "summary": "",
+      "path": "demo/demo-two.html",
+      "properties": [
+        {
+          "name": "loading",
+          "type": "boolean",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 31,
+              "column": 10
+            },
+            "end": {
+              "line": 31,
+              "column": 26
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "loaded",
+          "type": "boolean",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 32,
+              "column": 10
+            },
+            "end": {
+              "line": 32,
+              "column": 25
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "variables",
+          "type": "Object",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 33,
+              "column": 10
+            },
+            "end": {
+              "line": 39,
+              "column": 11
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "loadMore",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 42,
+              "column": 6
+            },
+            "end": {
+              "line": 45,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": []
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 27,
+          "column": 4
+        },
+        "end": {
+          "line": 46,
+          "column": 5
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "name": "DemoTwo",
+      "attributes": [
+        {
+          "name": "loading",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 31,
+              "column": 10
+            },
+            "end": {
+              "line": 31,
+              "column": 26
+            }
+          },
+          "metadata": {},
+          "type": "boolean"
+        },
+        {
+          "name": "loaded",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 32,
+              "column": 10
+            },
+            "end": {
+              "line": 32,
+              "column": 25
+            }
+          },
+          "metadata": {},
+          "type": "boolean"
+        },
+        {
+          "name": "variables",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 33,
+              "column": 10
+            },
+            "end": {
+              "line": 39,
+              "column": 11
+            }
+          },
+          "metadata": {},
+          "type": "Object"
+        }
+      ],
+      "events": [],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "demo-two"
+    }
+  ]
+}

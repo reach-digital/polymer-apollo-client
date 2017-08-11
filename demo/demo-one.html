@@ -1,0 +1,26 @@
+<link rel="import" href="../../../bower_components/polymer/polymer-element.html"/>
+<link rel="import" href="../graphql-query.html"/>
+
+<dom-module id="demo-one">
+
+  <template>
+    <h2>Demo 1: Load data as fast as possible</h2>
+
+    <graphql-query result="{{data}}">
+      query {
+        Starship(name: "Millennium Falcon") {
+          name
+          class
+        }
+      }
+    </graphql-query>
+
+    Loaded asap: [[data.Starship.name]] [[data.Starship.name]]
+  </template>
+  <script>
+    class DemoOne extends Polymer.Element {
+      static get is() { return 'demo-one'; }
+    }
+    customElements.define(DemoOne.is, DemoOne);
+  </script>
+</dom-module>

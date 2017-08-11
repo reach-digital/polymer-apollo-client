@@ -1,0 +1,25 @@
+{
+  "name": "apollo-client",
+  "description": "Polymer Apollo Client GraphQL implementation",
+  "main": "index.html",
+  "authors": [
+    "Paul Hachmang"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "GraphQL",
+    "Apollo",
+    "Client",
+    "Polymer",
+    "Mutation",
+    "Query"
+  ],
+  "homepage": "https://github.com/reach-digital/polymer-apollo-client",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

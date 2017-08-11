@@ -1,0 +1,43 @@
+<link rel="import" href="graphql-query.html" />
+
+<script>
+  class GraphQLMutation extends GraphQLQuery {
+    static get is() { return 'graphql-mutation' }
+    static get properties() {
+      return {
+        hold: {
+          value: true
+        },
+        hostLoading: {
+          value: false
+        }
+      }
+    }
+
+    /**
+     * Execute the query/mutation directly (used in combination with hold or with graphql-mutation)
+     *
+     * @return {Promise}
+     */
+    execute() {
+      let validationResult = this.validate();
+      if (validationResult.error) {
+        console.error(validationResult.msg, this);
+        return;
+      }
+
+      this.hostLoading = true;
+
+      return this._getClient().mutate({
+        mutation: this.query,
+        variables: this.variables,
+      }).then((result) => {
+        this.hostLoading = false;
+        this.result = result.data;
+      }).catch((error) => {
+        console.log('there was an error sending the query', error);
+      });
+    }
+  }
+  customElements.define(GraphQLMutation.is, GraphQLMutation);
+</script>

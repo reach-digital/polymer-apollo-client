@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>graphql-query</title>
+
+  <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../../../bower_components/paper-styles/demo-pages.html">
+  <link rel="import" href="../../../bower_components/iron-demo-helpers/demo-snippet.html"/>
+  <script src="../build/apollo-client.js"></script>
+  <link rel="import" href="../graphql-client.html"/>
+  <link rel="import" href="demo-one.html"/>
+  <link rel="import" href="demo-two.html"/>
+</head>
+<body>
+
+  <div class="vertical-section centered">
+    <graphql-client config='{ "uri": "https://api.graphcms.com/simple/v1/swapi" }'></graphql-client>
+
+    <demo-one></demo-one>
+
+    <demo-two></demo-two>
+  </div>
+</body>
+</html>
