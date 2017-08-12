@@ -1,12 +1,36 @@
 # GraphQL: Polymer Apollo Client. 🚀
 
+<!--
+```
+<custom-element-demo>
+  <template>
+    <script src="build/apollo-client.js"></script>
+    <link rel="import" href="graphql-client.html">
+    <link rel="import" href="graphql-query.html">
+    <graphql-client config='{ "uri": "https://api.graphcms.com/simple/v1/swapi" }'></graphql-client>
+    <graphql-query result="{{starShipData}}">
+    query {
+      Starship(name: "Millennium Falcon") {
+        name
+        class
+      }
+    }
+    </graphql-query>
+    My Star ship: [[starShipData.Starship.name]] [[starShipData.Starship.class]]
+  </template>
+</custom-element-demo>
+```
+-->
+
 ## Getting started:
 
 
 ```html
 <!-- Import the default build apollo client to get started quickly -->
 <script src="bower_components/apollo-client/build/apollo-client.js"></script>
+```
 
+```html
 <!-- Define a graphql-client somewhere once -->
 <graphql-client config='{ "uri": "https://api.graphcms.com/simple/v1/swapi" }'></graphql-client>
 <graphql-query result="{{starShipData}}">
