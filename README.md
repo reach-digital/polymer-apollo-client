@@ -1,5 +1,7 @@
 # GraphQL: Polymer Apollo Client. 🚀
 
+Easy integration with GraphQL.
+
 <!--
 ```html
 <custom-element-demo>
@@ -147,7 +149,6 @@ this.$.contactMutation.execute().then((result) => {
   //AMAZING RESULT, Mutation has been submitted 🎉
 })
 ```
-
 
 ## Todo
 - Better `<graphql-mutation>` API and documentation.
