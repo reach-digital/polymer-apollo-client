@@ -43,7 +43,8 @@ Changing the variables or the query will automatically re-fetch all the informat
 The query element implements the MatryoshkaLoaderMixin and thus propagates the loading state of the query throughout the system
 
 @group Apollo Client
-@demo demo/index.html
+@demo demo/graphql-query-simple.html Simple Query
+@demo demo/graphql-query-defer.html Complex Deferred Query
 -->
 <script>
   class GraphQLQuery extends MatryoshkaLoaderMixin(Polymer.Element) {
@@ -135,7 +136,7 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
         },
 
         /**
-         * With the support of handling multiple endpoints
+         * Connect to a different client.
          */
         clientName: {
           value: CLIENT_NAME_DEFAULT
