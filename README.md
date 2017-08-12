@@ -28,6 +28,8 @@ Easy integration with GraphQL.
 ```
 -->
 ```html
+<!-- to explore and play with the API, go to https://api.graphcms.com/simple/v1/swapi -->
+<!-- This field is editable, so you can try things out -->
 <graphql-client config='{ "uri": "https://api.graphcms.com/simple/v1/swapi" }'></graphql-client>
 <graphql-query result="{{starShipData}}">
 query {
