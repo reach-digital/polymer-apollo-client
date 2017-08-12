@@ -13,11 +13,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 58,
+              "line": 60,
               "column": 10
             },
             "end": {
-              "line": 58,
+              "line": 60,
               "column": 24
             }
           },
@@ -32,11 +32,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 62,
+              "line": 64,
               "column": 10
             },
             "end": {
-              "line": 65,
+              "line": 67,
               "column": 11
             }
           },
@@ -52,11 +52,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 72,
+              "line": 74,
               "column": 6
             },
             "end": {
-              "line": 81,
+              "line": 83,
               "column": 7
             }
           },
@@ -74,11 +74,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 51,
+          "line": 53,
           "column": 4
         },
         "end": {
-          "line": 82,
+          "line": 84,
           "column": 5
         }
       },
@@ -91,11 +91,11 @@
           "description": "Will be passed to the createNetworkInterface.",
           "sourceRange": {
             "start": {
-              "line": 58,
+              "line": 60,
               "column": 10
             },
             "end": {
-              "line": 58,
+              "line": 60,
               "column": 24
             }
           },
@@ -107,11 +107,11 @@
           "description": "Name of the client, when using only a single endpoint in your application, you can omit this parameter.",
           "sourceRange": {
             "start": {
-              "line": 62,
+              "line": 64,
               "column": 10
             },
             "end": {
-              "line": 65,
+              "line": 67,
               "column": 11
             }
           },
@@ -658,7 +658,7 @@
       "tagname": "graphql-query"
     },
     {
-      "description": "",
+      "description": "_Note: the current implementation for mutations is in draft, api might change in a future release._\n\nThe current implementation stays as close to the `<graphql-query>` as possible.\n\n```\n<graphql-mutation id=\"contactMutation\" variables=\"[[contactFormData]]\" result=\"{{contactMutationResult}}\">\nmutation SubmitContactForm(\n  $name: String!,\n  $email: String!,\n  $phone: String!,\n  $subject: String!,\n  $message: String!\n) {\n  createContactForm(\n    name: $name,\n    email: $email,\n    phone: $phone,\n    subject: $subject,\n    message: $message\n  ) {\n    id\n  }\n}\n</graphql-mutation>\n```\n\n```js\n//somewhere after your button has called submit()\nthis.contactFormData = {} //fill the contactMutation with the correct data.\n\n//It will give an error if not everything is filled in correctly.\nthis.$.contactMutation.validate()\n\nthis.$.contactMutation.execute().then((result) => {\n  //AMAZING RESULT, Mutation has been submitted 🎉\n})\n```",
       "summary": "",
       "path": "graphql-mutation.html",
       "properties": [
@@ -820,12 +820,12 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 7,
-              "column": 8
+              "line": 51,
+              "column": 10
             },
             "end": {
-              "line": 9,
-              "column": 9
+              "line": 53,
+              "column": 11
             }
           },
           "metadata": {
@@ -863,12 +863,12 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 10,
-              "column": 8
+              "line": 54,
+              "column": 10
             },
             "end": {
-              "line": 12,
-              "column": 9
+              "line": 56,
+              "column": 11
             }
           },
           "metadata": {
@@ -972,12 +972,12 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 21,
-              "column": 4
+              "line": 65,
+              "column": 6
             },
             "end": {
-              "line": 39,
-              "column": 5
+              "line": 83,
+              "column": 7
             }
           },
           "metadata": {},
@@ -1053,12 +1053,12 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 3,
-          "column": 2
+          "line": 47,
+          "column": 4
         },
         "end": {
-          "line": 40,
-          "column": 3
+          "line": 84,
+          "column": 5
         }
       },
       "privacy": "public",
@@ -1160,12 +1160,12 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 7,
-              "column": 8
+              "line": 51,
+              "column": 10
             },
             "end": {
-              "line": 9,
-              "column": 9
+              "line": 53,
+              "column": 11
             }
           },
           "metadata": {}
@@ -1210,12 +1210,12 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 10,
-              "column": 8
+              "line": 54,
+              "column": 10
             },
             "end": {
-              "line": 12,
-              "column": 9
+              "line": 56,
+              "column": 11
             }
           },
           "metadata": {}

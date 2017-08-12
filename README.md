@@ -1,26 +1,42 @@
 # GraphQL: Polymer Apollo Client. 🚀
 
 <!--
-```
+```html
 <custom-element-demo>
   <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="build/apollo-client.js"></script>
     <link rel="import" href="graphql-client.html">
     <link rel="import" href="graphql-query.html">
-    <graphql-client config='{ "uri": "https://api.graphcms.com/simple/v1/swapi" }'></graphql-client>
-    <graphql-query result="{{starShipData}}">
-    query {
-      Starship(name: "Millennium Falcon") {
-        name
-        class
+    <link rel="import" href="../polymer/lib/elements/dom-bind.html">
+    <style>
+      html {
+        font-family: sans-serif; 
       }
-    }
-    </graphql-query>
-    My Star ship: [[starShipData.Starship.name]] [[starShipData.Starship.class]]
+    </style>
+    <div>
+      <dom-bind>
+        <template is="dom-bind">
+         <next-code-block></next-code-block>
+        </template>
+      </dom-bind>
+    </div>
   </template>
 </custom-element-demo>
 ```
 -->
+```html
+<graphql-client config='{ "uri": "https://api.graphcms.com/simple/v1/swapi" }'></graphql-client>
+<graphql-query result="{{starShipData}}">
+query {
+  Starship(name: "Millennium Falcon") {
+    name
+    class
+  }
+}
+</graphql-query>
+My Star ship: [[starShipData.Starship.name]] [[starShipData.Starship.class]]
+```
 
 ## Getting started:
 
@@ -122,7 +138,6 @@ mutation SubmitContactForm(
 
 ```js
 //somewhere after your button has called submit()
-
 this.contactFormData = {} //fill the contactMutation with the correct data.
 
 //It will give an error if not everything is filled in correctly.
