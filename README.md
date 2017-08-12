@@ -1,5 +1,7 @@
 # GraphQL: Polymer Apollo Client. 🚀
 
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg?style=flat-square)](https://www.webcomponents.org/element/reach-digital/polymer-apollo-client)
+
 Easy integration with GraphQL.
 
 <!--
