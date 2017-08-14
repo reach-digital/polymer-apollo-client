@@ -1,7 +1,7 @@
 {
   "name": "apollo-client",
   "description": "Polymer Apollo Client GraphQL implementation",
-  "main": "index.html",
+  "main": "apollo-client.html",
   "authors": [
     "Paul Hachmang"
   ],
