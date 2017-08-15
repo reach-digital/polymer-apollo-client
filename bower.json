@@ -3,16 +3,13 @@
   "description": "Polymer Apollo Client GraphQL implementation",
   "main": "apollo-client.html",
   "authors": [
-    "Paul Hachmang"
+    "Paul Hachmang <paul@h-o.nl>"
   ],
   "license": "MIT",
   "keywords": [
     "GraphQL",
-    "Apollo",
-    "Client",
-    "Polymer",
-    "Mutation",
-    "Query"
+    "Apollo Client",
+    "Firebase"
   ],
   "homepage": "https://github.com/reach-digital/polymer-apollo-client",
   "ignore": [
@@ -25,5 +22,8 @@
   "dependencies": {
     "matryoshka-loader": "reach-digital/polymer-matryoshka-loader#^0.8.0",
     "polymer": "^2.0.2"
+  },
+  "devDependencies": {
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0"
   }
 }
