@@ -10,9 +10,23 @@ const init = (config) => {
     console.error('Trying to initialize an ApolloClient without having a config set');
   }
 
+  const networkInterface = createBatchingNetworkInterface(Object.assign({batchInterval: 10, batchMax: 10}, config));
+
+  const absintheAfterware = {
+    applyBatchAfterware(res, next) {
+      res.responses.forEach((resp) => {
+        resp.data = resp.payload.data;
+      });
+
+      next();
+    },
+  };
+
+  networkInterface.useAfter([absintheAfterware]);
+
   // Create the apollo client
   return new ApolloClient({
-    networkInterface: createBatchingNetworkInterface(Object.assign({batchInterval: 10, batchMax: 10}, config)),
+    networkInterface: networkInterface,
     queryDeduplication: true
   });
 }
