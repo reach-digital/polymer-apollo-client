@@ -13,37 +13,15 @@ const init = (config) => {
     console.error('Trying to initialize an ApolloClient without having a config set');
   }
 
-  // const networkInterface = createBatchingNetworkInterface(Object.assign({batchInterval: 10, batchMax: 10}, config));
-
-  // const absintheAfterware = {
-  //   applyBatchAfterware(res, next) {
-  //     res.responses.forEach((resp) => {
-  //       resp.data = resp.payload.data;
-  //     });
-
-  //     next();
-  //   },
-  // };
-
-    // networkInterface.useAfter([absintheAfterware]);
-
+  // This should probably pull from the config object
   const httpLink = createHttpLink({ uri: '/graphql' });
 
-  // const absintheLink = new ApolloLink((operation, forward) => {
-  //   return forward(operation).map((response) => {
-  //     response.responses.forEach((resp) => {
-  //       resp.data = resp.payload.data;
-  //     });
-  //     return response;
-  //   });
-  // });
-
-  const link = absintheLink.concat(httpLink);
+  const inMemCache = new InMemoryCache().restore(window.__APOLLO_STATE__);
 
   // Create the apollo client
   return new ApolloClient({
     link: httpLink,
-    cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
+    cache: inMemCache
   });
 }
 
