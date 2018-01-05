@@ -1,7 +1,6 @@
-import ApolloClient, { getFragmentDefinitions, createFragmentMap, createBatchingNetworkInterface } from "apollo-client";
+import ApolloClient, { getFragmentDefinitions, createFragmentMap } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { ApolloLink } from 'apollo-link';
-import { createHttpLink } from 'apollo-link-http';
+import { BatchHttpLink } from "apollo-link-batch-http";
 import gql from 'graphql-tag';
 
 /**
@@ -13,15 +12,10 @@ const init = (config) => {
     console.error('Trying to initialize an ApolloClient without having a config set');
   }
 
-  // This should probably pull from the config object
-  const httpLink = createHttpLink({ uri: '/graphql' });
-
-  const inMemCache = new InMemoryCache().restore(window.__APOLLO_STATE__);
-
   // Create the apollo client
   return new ApolloClient({
-    link: httpLink,
-    cache: inMemCache
+    link: new BatchHttpLink(config),
+    cache: new InMemoryCache().restore(window.__APOLLO_STATE__)
   });
 }
 
