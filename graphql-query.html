@@ -15,13 +15,15 @@ An easy interface to create GraphQL queries in your system.
 
 ```html
 <graphql-query variables='{ "identifier": "home_hero" }' result="{{result}}">
-  query ($identifier: String!) {
-    block: Block(identifier: $identifier) {
-      id
-      title
-      content
+  <script type="application/graphql">
+    query ($identifier: String!) {
+      block: Block(identifier: $identifier) {
+        id
+        title
+        content
+      }
     }
-  }
+  </script>
 </graphql-query>
 ```
 
@@ -276,7 +278,7 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
     }
 
     _updateQuery() {
-      let query = this.textContent;
+      let query = this.querySelector('script[type="application/graphql"]').textContent;
       if (! query) {
         return;
       }
