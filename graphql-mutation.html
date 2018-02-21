@@ -7,23 +7,25 @@ The current implementation stays as close to the `<graphql-query>` as possible.
 
 ```
 <graphql-mutation id="contactMutation" variables="[[contactFormData]]" result="{{contactMutationResult}}">
-mutation SubmitContactForm(
-  $name: String!,
-  $email: String!,
-  $phone: String!,
-  $subject: String!,
-  $message: String!
-) {
-  createContactForm(
-    name: $name,
-    email: $email,
-    phone: $phone,
-    subject: $subject,
-    message: $message
-  ) {
-    id
-  }
-}
+  <script type="application/graphql">
+    mutation SubmitContactForm(
+      $name: String!,
+      $email: String!,
+      $phone: String!,
+      $subject: String!,
+      $message: String!
+    ) {
+      createContactForm(
+        name: $name,
+        email: $email,
+        phone: $phone,
+        subject: $subject,
+        message: $message
+      ) {
+        id
+      }
+    }
+  </script>
 </graphql-mutation>
 ```
 
