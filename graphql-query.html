@@ -53,14 +53,15 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
     static get is() { return 'graphql-query' }
     static get properties() {
       return {
+
         /**
-         * Copy of the query provided in this.innerText, if you want to programmatically change the query use
-         * `this.innerText`
+         * Copy of the query provided in the script.
          * @private
          */
         query: {
           type: Object,
         },
+
         /**
          * JSON Object of the variables passed with the query
          */
@@ -68,31 +69,40 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
           type: Object,
           value: {}
         },
+
         /**
-         * Set the fetchPolicy of the query.
+         * Set the fetchPolicy option for the query.
          * [Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchPolicy)
          */
         fetchPolicy: {
           type: String
         },
+
         /**
-         * Set the pollInterval.
+         * Set the fetchResults option for the query
+         * [Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchResults)
+         */
+        fetchResults: {
+          type: Object,
+          value: null,
+        },
+
+        /**
+         * Set the pollInterval option for the query.
          * [Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-pollInterval)
-         *
-         * @todo Not yet implemented
          */
         pollInterval: {
           type: Number,
         },
+
         /**
          * Whether or not updates to the network status or network error should trigger re-rendering of your component.
          * [Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-notifyOnNetworkStatusChange)
-         *
-         * @todo Not yet implemented
          */
         notifyOnNetworkStatusChange: {
           type: Boolean
         },
+
         /**
          * It is used to halt the execution of the query when not all the variables are provided yet.
          * @private
@@ -101,6 +111,7 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
           type: Object,
           computed: '_computeRequiredVariables(query)'
         },
+
         /**
          * This allows you to defer the query until a later moment using Polymer.Async.idlePeriod. This solves an issue
          * with rendering critical data first an deferring non-critical information to a later moment.
@@ -109,6 +120,7 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
           type: Boolean,
           value: false
         },
+
         /**
          * When this is set to `true` it will not execute the query when the properties query+variables+defer have a
          * value. To run the query set hold to `false` or run execute()
@@ -119,6 +131,7 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
           type: Boolean,
           value: false
         },
+
         /**
          * Object of the resulting data of the query.
          * [Apollo Client Docs](http://dev.apollodata.com/react/queries.html#default-result-props)
@@ -127,6 +140,7 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
           type: Object,
           notify: true
         },
+
         /**
          * Sets the default value of hostLoading to true, this means this element will always propagate that it is
          * loading.
@@ -142,7 +156,8 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
          */
         clientName: {
           value: CLIENT_NAME_DEFAULT
-        }
+        },
+
       }
     }
     static get observers() {
@@ -247,11 +262,24 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
 
       this.hostLoading = true;
 
-      var observableQuery = this._getClient().watchQuery({
-        query: this.query,
-        variables: this.variables,
-        fetchPolicy: this.fetchPolicy
-      })
+      const {
+        fetchPolicy,
+        fetchResults,
+        notifyOnNetworkStatusChange,
+        pollInterval,
+        query,
+        variables,
+      } = this;
+
+      const observableQuery = this._getClient().watchQuery({
+        fetchPolicy,
+        fetchResults,
+        notifyOnNetworkStatusChange,
+        pollInterval,
+        query,
+        variables,
+      });
+
       observableQuery.subscribe({
         next: (result) => {
           this.hostLoading = result.loading;
