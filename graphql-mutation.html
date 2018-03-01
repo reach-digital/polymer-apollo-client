@@ -74,15 +74,16 @@ this.$.contactMutation.execute().then((result) => {
 
         this.hostLoading = true;
 
-        return this._getClient().mutate({
-          mutation: this.query,
-          variables: this.variables,
-        }).then((result) => {
-          this.hostLoading = false;
-          this.result = result.data;
-        }).catch((error) => {
-          console.log('there was an error sending the query', error);
-        });
+        const mutation = this.query;
+        const {variables} = this;
+        return this._getClient().mutate({ mutation, variables })
+          .then((result) => {
+            this.hostLoading = false;
+            this.result = result.data;
+            return result;
+          }).catch((error) => {
+            console.log('there was an error sending the query', error);
+          });
       }
     }
     customElements.define(GraphQLMutation.is, GraphQLMutation);
