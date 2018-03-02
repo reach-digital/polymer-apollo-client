@@ -25,18 +25,20 @@
     <dom-bind><!--only necessary for demo-->
       <template><!--only necessary for demo-->
         <graphql-query result="{{starShipsData}}" defer>
-          query {
-            allStarships(first: 5, filter: {pilots_some: {name_not: ""}}) {
-              name
-              class
-              pilots {
+          <script type="application/graphql">
+            query {
+              allStarships(first: 5, filter: {pilots_some: {name_not: ""}}) {
                 name
-                homeworld {
+                class
+                pilots {
                   name
+                  homeworld {
+                    name
+                  }
                 }
               }
             }
-          }
+          </script>
         </graphql-query>
         <template is="dom-repeat" items="[[starShipsData.allStarships]]" as="starship">
           <h4>[[starship.name]] ([[starship.class]])</h4>

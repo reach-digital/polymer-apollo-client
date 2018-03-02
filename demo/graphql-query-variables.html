@@ -26,12 +26,14 @@
     <dom-bind><!--only necessary for demo-->
       <template><!--only necessary for demo-->
         <graphql-query result="{{data}}">
-          query {
-            Starship(name: "Millennium Falcon") {
-              name
-              class
+          <script type="application/graphql">
+            query {
+              Starship(name: "Millennium Falcon") {
+                name
+                class
+              }
             }
-          }
+          </script>
         </graphql-query>
 
         Loaded asap: [[data.Starship.name]] [[data.Starship.name]]

@@ -15,7 +15,7 @@ Easy integration with GraphQL.
     <link rel="import" href="../polymer/lib/elements/dom-bind.html">
     <style>
       html {
-        font-family: sans-serif; 
+        font-family: sans-serif;
       }
     </style>
     <div>
@@ -34,12 +34,14 @@ Easy integration with GraphQL.
 <!-- This field is editable, so you can try things out -->
 <graphql-client config='{ "uri": "https://api.graphcms.com/simple/v1/swapi" }'></graphql-client>
 <graphql-query result="{{starShipData}}">
-query {
-  Starship(name: "Millennium Falcon") {
-    name
-    class
-  }
-}
+  <script type="application/graphql">
+    query {
+      Starship(name: "Millennium Falcon") {
+        name
+        class
+      }
+    }
+  </script>
 </graphql-query>
 My Star ship: [[starShipData.Starship.name]] [[starShipData.Starship.class]]
 ```
@@ -56,12 +58,14 @@ My Star ship: [[starShipData.Starship.name]] [[starShipData.Starship.class]]
 <!-- Define a graphql-client somewhere once -->
 <graphql-client config='{ "uri": "https://api.graphcms.com/simple/v1/swapi" }'></graphql-client>
 <graphql-query result="{{starShipData}}">
-query {
-  Starship(name: "Millennium Falcon") {
-    name
-    class
-  }
-}
+  <script type="application/graphql">
+    query {
+      Starship(name: "Millennium Falcon") {
+        name
+        class
+      }
+    }
+  </script>
 </graphql-query>
 My Star ship: [[starShipData.Starship.name]] [[starShipData.Starship.class]]
 ```
@@ -73,18 +77,20 @@ Deferred queries use `Polymer.Async.idlePeriod.run(executeQuery)` to defer the q
 ```html
 <!-- Client is already defined, so no need to do it twice. -->
 <graphql-query result="{{starShipsData}}" defer>
-query {
-  allStarships(first: 5, filter: {pilots_some: {name_not: ""}}) {
-    name
-    class
-    pilots {
-      name
-      homeworld {
+  <script type="application/graphql">
+    query {
+      allStarships(first: 5, filter: {pilots_some: {name_not: ""}}) {
         name
+        class
+        pilots {
+          name
+          homeworld {
+            name
+          }
+        }
       }
     }
-  }
-}
+  </script>
 </graphql-query>
 <template is="dom-repeat" items="[[starShipsData.allStarships]]" as="starship">
   <h2>[[starship.name]] ([[starship.class]])</h2>
@@ -105,12 +111,14 @@ variables object based on other properties of the element.
 
 ```html
 <graphql-query result="{{pagination}}" variables="[[_calculateVariables(skip)]]">
-query Pagination($skip: Int!) {
-  allStarships(first: 5, skip: $skip) {
-    name
-    class
-  }
-}
+  <script type="application/graphql">
+    query Pagination($skip: Int!) {
+      allStarships(first: 5, skip: $skip) {
+        name
+        class
+      }
+    }
+  </script>
 </graphql-query>
 ```
 
@@ -122,23 +130,25 @@ The current implementation stays as close to the `<graphql-query>` as possible.
 
 ```html
 <graphql-mutation id="contactMutation" variables="[[contactFormData]]" result="{{contactMutationResult}}">
-mutation SubmitContactForm(
-  $name: String!,
-  $email: String!,
-  $phone: String!,
-  $subject: String!,
-  $message: String!
-) {
-  createContactForm(
-    name: $name,
-    email: $email,
-    phone: $phone,
-    subject: $subject,
-    message: $message
-  ) {
-    id
-  }
-}
+  <script type="application/graphql">
+    mutation SubmitContactForm(
+      $name: String!,
+      $email: String!,
+      $phone: String!,
+      $subject: String!,
+      $message: String!
+    ) {
+      createContactForm(
+        name: $name,
+        email: $email,
+        phone: $phone,
+        subject: $subject,
+        message: $message
+      ) {
+        id
+      }
+    }
+  </script>
 </graphql-mutation>
 ```
 
