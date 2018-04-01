@@ -1,6 +1,6 @@
 <!--<link rel="import" href="graphql-client.html"/>-->
-<link rel="import" href="../matryoshka-loader/matryoshka-loader-mixin.html" />
-<link rel="import" href="graphql-client.html" />
+<link rel="import" href="../matryoshka-loader/matryoshka-loader-mixin.html">
+<link rel="import" href="graphql-client.html">
 
 <!--
 # Graphql Query
@@ -47,10 +47,13 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
 @group Apollo Client
 @demo demo/graphql-query-simple.html Simple Query
 @demo demo/graphql-query-defer.html Complex Deferred Query
+@extends Polymer.Element
+@appliesMixin MatryoshkaLoaderMixin
 -->
 <script>
+  window.PolymerApolloClient = window.PolymerApolloClient || {};
   class GraphQLQuery extends MatryoshkaLoaderMixin(Polymer.Element) {
-    static get is() { return 'graphql-query' }
+    static get is() {return 'graphql-query';}
     static get properties() {
       return {
 
@@ -67,7 +70,7 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
          */
         variables: {
           type: Object,
-          value: {}
+          value: {},
         },
 
         /**
@@ -75,7 +78,7 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
          * [Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchPolicy)
          */
         fetchPolicy: {
-          type: String
+          type: String,
         },
 
         /**
@@ -96,40 +99,45 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
         },
 
         /**
-         * Whether or not updates to the network status or network error should trigger re-rendering of your component.
+         * Whether or not updates to the network status or network error should
+         * trigger re-rendering of your component.
          * [Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-notifyOnNetworkStatusChange)
          */
         notifyOnNetworkStatusChange: {
-          type: Boolean
+          type: Boolean,
         },
 
         /**
-         * It is used to halt the execution of the query when not all the variables are provided yet.
+         * It is used to halt the execution of the query when not all the
+         * variables are provided yet.
          * @private
          */
         requiredVariables: {
           type: Object,
-          computed: '_computeRequiredVariables(query)'
+          computed: '_computeRequiredVariables(query)',
         },
 
         /**
-         * This allows you to defer the query until a later moment using Polymer.Async.idlePeriod. This solves an issue
-         * with rendering critical data first an deferring non-critical information to a later moment.
+         * This allows you to defer the query until a later moment using
+         * Polymer.Async.idlePeriod. This solves an issue with rendering
+         * critical data first an deferring non-critical information to a later
+         * moment.
          */
         defer: {
           type: Boolean,
-          value: false
+          value: false,
         },
 
         /**
-         * When this is set to `true` it will not execute the query when the properties query+variables+defer have a
-         * value. To run the query set hold to `false` or run execute()
+         * When this is set to `true` it will not execute the query when the
+         * properties query+variables+defer have a value.
+         * To run the query set hold to `false` or run execute()
          *
          * You might want to set hostLoading to false when you do this.
          */
         hold: {
           type: Boolean,
-          value: false
+          value: false,
         },
 
         /**
@@ -138,32 +146,32 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
          */
         result: {
           type: Object,
-          notify: true
+          notify: true,
         },
 
         /**
-         * Sets the default value of hostLoading to true, this means this element will always propagate that it is
-         * loading.
+         * Sets the default value of hostLoading to true,
+         * this means this element will always propagate that it is loading.
          * @todo, when defer is set, is this properly handled?
          * @protected
          */
         hostLoading: {
-          value: true
+          value: true,
         },
 
         /**
          * Connect to a different client.
          */
         clientName: {
-          value: CLIENT_NAME_DEFAULT
+          value: window.PolymerApolloClient.CLIENT_NAME_DEFAULT,
         },
 
-      }
+      };
     }
     static get observers() {
       return [
-        '_onRunQuery(defer, hold, query, variables)'
-      ]
+        '_onRunQuery(defer, hold, query, variables)',
+      ];
     }
 
     /**
@@ -180,12 +188,13 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
     connectedCallback() {
       super.connectedCallback();
       var observer = new MutationObserver(this._updateQuery);
-      observer.observe(this, { subtree: true, characterData: true });
+      observer.observe(this, {subtree: true, characterData: true});
       this._updateQuery();
     }
 
     /**
-     * Actual method to fetch all the data. This is called when on of the properties: query, variables, defer or hold is changed.
+     * Actual method to fetch all the data.
+     * This is called when query, variables, defer or hold is changed.
      * @protected
      */
     _onRunQuery(defer, hold) {
@@ -205,33 +214,36 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
     }
 
     /**
-     * Validate if all the required properties are properly filled in and return the error if there is something wrong.
+     * Validate if all the required properties are properly filled in and return
+     * the error if there is something wrong.
      * @return {Object}
      */
     validate() {
       if (this.query === undefined) {
         return {
           error: true,
-          msg: 'Query not yet defined'
-        }
+          msg: 'Query not yet defined',
+        };
       }
 
       if (this.variables === undefined) {
         return {
           error: true,
-          msg: 'Variables are undefined should be an empty object if you don not want to send anything'
-        }
+          // eslint-disable-next-line max-len
+          msg: 'Variables are undefined should be an empty object if you don not want to send anything',
+        };
       }
 
       if (this.defer === undefined) {
         return {
           error: true,
-          msg: 'Defer is undefined, accidentally set it to undefined should be true or false?'
-        }
+          // eslint-disable-next-line max-len
+          msg: 'Defer is undefined, accidentally set it to undefined should be true or false?',
+        };
       }
 
-      if (this.requiredVariables.length && Object.keys(this.variables).length <= 0) {
-
+      if (this.requiredVariables.length &&
+          Object.keys(this.variables).length <= 0) {
         let emptyVariables = this.requiredVariables.filter((variable) => {
           return this.variables[variable] === undefined;
         });
@@ -239,17 +251,18 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
         return {
           error: true,
           msg: 'Not all required variables are submitted',
-          variables: emptyVariables
-        }
+          variables: emptyVariables,
+        };
       }
 
       return {
-        error: false
+        error: false,
       };
     }
 
     /**
-     * Execute the query/mutation directly (used in combination with hold or with graphql-mutation)
+     * Execute the query/mutation directly.
+     * (used in combination with hold or with graphql-mutation)
      *
      * @return {ObservableQuery}
      */
@@ -271,7 +284,10 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
         variables,
       } = this;
 
-      const observableQuery = this._getClient().watchQuery({
+      const client = this._getClient();
+      // eslint-disable-next-line max-len
+      if (!client) throw new Error('There is no GraphQL client available. Initialize one on window.Apollo.client');
+      const observableQuery = client.watchQuery({
         fetchPolicy,
         fetchResults,
         notifyOnNetworkStatusChange,
@@ -284,19 +300,19 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
         next: (result) => {
           this.hostLoading = result.loading;
           this.result = result.data;
-        }
-      })
+        },
+      });
 
       return observableQuery;
     }
 
     _computeRequiredVariables(query) {
       var requiredVariables = [];
-      query.definitions.forEach(function (definition) {
+      query.definitions.forEach(function(definition) {
         if (definition.variableDefinitions) {
-          definition.variableDefinitions.forEach(function(variable){
+          definition.variableDefinitions.forEach(function(variable) {
             if (variable.type.kind === 'NonNullType') {
-              requiredVariables.push(variable.variable.name.value)
+              requiredVariables.push(variable.variable.name.value);
             }
           });
         }
@@ -306,16 +322,15 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
     }
 
     _updateQuery() {
-      let query = this.querySelector('script[type="application/graphql"]').textContent;
-      if (! query) {
-        return;
-      }
+      const script = this.querySelector('script[type="application/graphql"]');
+      const query = script.textContent;
+      if (!query) return;
 
       this.query = window.Apollo.gql([query]);
     }
 
     _getClient() {
-      return window.Apollo.namedClient[this.clientName]
+      return window.Apollo.client;
     }
   }
   customElements.define(GraphQLQuery.is, GraphQLQuery);
