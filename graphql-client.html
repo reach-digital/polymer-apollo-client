@@ -50,36 +50,44 @@ your version.
     </style>
   </template>
   <script>
-    const CLIENT_NAME_DEFAULT = 'default';
+    window.PolymerApolloClient = window.PolymerApolloClient || {};
+    window.PolymerApolloClient.CLIENT_NAME_DEFAULT = 'default';
+
     class GraphqlClient extends Polymer.Element {
       static get is() {return 'graphql-client';}
       static get properties() {
         return {
+
           /**
            * Will be passed to the createNetworkInterface.
            */
-          config: Object,
+          config: {
+            type: Object,
+            observer: 'configChanged',
+          },
+
           /**
-           * Name of the client, when using only a single endpoint in your application, you can omit this parameter.
+           * Name of the client, when using only a single endpoint in your
+           * application, you can omit this parameter.
            */
           clientName: {
             type: String,
-            value: CLIENT_NAME_DEFAULT
-          }
-        }
+            value: window.PolymerApolloClient.CLIENT_NAME_DEFAULT,
+          },
+
+        };
       }
 
-      /**
-       * @protected
-       */
-      connectedCallback() {
-        super.connectedCallback()
+      configChanged(config) {
+        window.Apollo.namedClient[this.clientName] =
+          !config ? undefined
+        : window.Apollo.init(config);
 
-        window.Apollo.namedClient[this.clientName] = window.Apollo.init(this.config);
-
-        if (this.clientName === CLIENT_NAME_DEFAULT) {
-          window.Apollo.client = window.Apollo.namedClient[CLIENT_NAME_DEFAULT]
-          window.__APOLLO_CLIENT__ = window.Apollo.client
+        if (this.clientName === window.PolymerApolloClient.CLIENT_NAME_DEFAULT) {
+          window.Apollo.client =
+            window.Apollo
+              .namedClient[window.PolymerApolloClient.CLIENT_NAME_DEFAULT];
+          window.__APOLLO_CLIENT__ = window.Apollo.client;
         }
       }
     }
