@@ -218,7 +218,9 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
      * the error if there is something wrong.
      * @return {Object}
      */
-    validate() {
+    validate(params = {}) {
+
+      const variables = params.variables || this.variables;
       if (this.query === undefined) {
         return {
           error: true,
@@ -226,7 +228,7 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
         };
       }
 
-      if (this.variables === undefined) {
+      if (variables == null) {
         return {
           error: true,
           // eslint-disable-next-line max-len
@@ -243,9 +245,9 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
       }
 
       if (this.requiredVariables.length &&
-          Object.keys(this.variables).length <= 0) {
+          Object.keys(variables).length <= 0) {
         let emptyVariables = this.requiredVariables.filter((variable) => {
-          return this.variables[variable] === undefined;
+          return variables[variable] === undefined;
         });
 
         return {
@@ -266,8 +268,8 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
      *
      * @return {ObservableQuery}
      */
-    execute() {
-      let validationResult = this.validate();
+    execute(params) {
+      let validationResult = this.validate(params);
       if (validationResult.error) {
         window.console.error(validationResult.msg, this);
         return;
@@ -285,8 +287,14 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
       } = this;
 
       const client = this._getClient();
-      // eslint-disable-next-line max-len
-      if (!client) throw new Error('There is no GraphQL client available. Initialize one on window.Apollo.client');
+
+      if (!client) {
+        throw new Error(
+          'There is no GraphQL client available. ' +
+          'Initialize one on window.Apollo.client'
+        );
+      }
+
       const observableQuery = client.watchQuery({
         fetchPolicy,
         fetchResults,

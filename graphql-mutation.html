@@ -65,8 +65,8 @@ this.$.contactMutation.execute().then((result) => {
        *
        * @return {Promise}
        */
-      execute() {
-        let validationResult = this.validate();
+      execute(params) {
+        let validationResult = this.validate(params);
         if (validationResult.error) {
           console.error(validationResult.msg, this);
           return;
@@ -75,8 +75,18 @@ this.$.contactMutation.execute().then((result) => {
         this.hostLoading = true;
 
         const mutation = this.query;
-        const {variables} = this;
-        return this._getClient().mutate({ mutation, variables })
+        const { variables } = this;
+
+        const client = this._getClient();
+
+        if (!client) {
+          throw new Error(
+            'There is no GraphQL client available. ' +
+            'Initialize one on window.Apollo.client'
+          );
+        }
+
+        return client.mutate({ mutation, variables, ...params })
           .then((result) => {
             this.hostLoading = false;
             this.result = result.data;
