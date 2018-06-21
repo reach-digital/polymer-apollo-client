@@ -1,6 +1,6 @@
 import ApolloClient, { getFragmentDefinitions, createFragmentMap } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { BatchHttpLink } from "apollo-link-batch-http";
+import { HttpLink } from "apollo-link-http";
 import gql from 'graphql-tag';
 
 /**
@@ -14,7 +14,7 @@ const init = (config) => {
 
   // Create the apollo client
   return new ApolloClient({
-    link: new BatchHttpLink(config),
+    link: new HttpLink(config),
     cache: new InMemoryCache().restore(window.__APOLLO_STATE__)
   });
 }
