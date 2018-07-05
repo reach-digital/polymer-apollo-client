@@ -64,7 +64,7 @@ The query element implements the MatryoshkaLoaderMixin and thus propagates the l
          */
         variables: {
           type: Object,
-          value: {}
+          value: function () { return {}; }
         },
         /**
          * Set the fetchPolicy of the query.
