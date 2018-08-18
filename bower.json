@@ -1,15 +1,27 @@
 {
   "name": "apollo-client",
-  "description": "Polymer Apollo Client GraphQL implementation",
-  "main": "apollo-client.html",
+  "description": "Polymer Apollo GraphQL Client web components",
+  "main": [
+    "apollo-client.html"
+  ],
   "authors": [
     "Paul Hachmang <paul@h-o.nl>"
   ],
   "license": "MIT",
   "keywords": [
-    "GraphQL",
-    "Apollo Client",
-    "Firebase"
+    "web-component",
+    "web-components",
+    "polymer-element",
+    "polymer",
+    "polymer-2",
+    "graphql",
+    "api",
+    "client",
+    "apollo",
+    "apollo-client",
+    "query",
+    "mutation",
+    "subscription"
   ],
   "homepage": "https://github.com/reach-digital/polymer-apollo-client",
   "ignore": [
@@ -20,10 +32,12 @@
     "tests"
   ],
   "dependencies": {
-    "matryoshka-loader": "reach-digital/polymer-matryoshka-loader#^0.8.0",
-    "polymer": "^2.0.2"
+    "polymer": "Polymer/polymer#^2.0.0",
+    "matryoshka-loader": "reach-digital/polymer-matryoshka-loader#^0.8.0"
   },
   "devDependencies": {
-    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0"
+    "iron-component-page": "PolymerElements/iron-component-page#^3.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
   }
 }

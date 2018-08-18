@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const BabiliPlugin = require("babili-webpack-plugin");
+const BabiliPlugin = require('babili-webpack-plugin');
 
 module.exports = {
   entry: './apollo-client.js',
@@ -24,7 +24,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ["env"]
+            presets: ['env']
           }
         }
       }

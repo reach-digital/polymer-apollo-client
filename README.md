@@ -1,4 +1,4 @@
-# GraphQL: Polymer Apollo Client. 🚀
+# Polymer Apollo GraphQL Client web components 🚀
 
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg?style=flat-square)](https://www.webcomponents.org/element/reach-digital/polymer-apollo-client)
 
@@ -30,40 +30,50 @@ Easy integration with GraphQL.
 ```
 -->
 ```html
-<!-- to explore and play with the API, go to https://api.graphcms.com/simple/v1/swapi -->
+<!-- To explore and play with the API, go to https://api.graphcms.com/simple/v1/swapi -->
 <!-- This field is editable, so you can try things out -->
-<graphql-client config='{ "uri": "https://api.graphcms.com/simple/v1/swapi" }'></graphql-client>
+
+<graphql-client config='{"uri": "https://api.graphcms.com/simple/v1/swapi"}'></graphql-client>
+
 <graphql-query result="{{starShipData}}">
-query {
-  Starship(name: "Millennium Falcon") {
-    name
-    class
+  query {
+    Starship(name: "Millennium Falcon") {
+      name
+      class
+    }
   }
-}
 </graphql-query>
-My Star ship: [[starShipData.Starship.name]] [[starShipData.Starship.class]]
+
+<ul>
+  <li>Name: [[data.Starship.name]]</li>
+  <li>Class: [[data.Starship.class]]</li>
+</ul>
 ```
 
 ## Getting started:
 
-
 ```html
-<!-- Import the default build apollo client to get started quickly -->
-<script src="bower_components/apollo-client/build/apollo-client.js"></script>
+<!-- Import the `build/apollo-client.js` in your website for a default setup -->
+<script src="bower_components/polymer-apollo-client/build/apollo-client.js"></script>
 ```
 
 ```html
 <!-- Define a graphql-client somewhere once -->
-<graphql-client config='{ "uri": "https://api.graphcms.com/simple/v1/swapi" }'></graphql-client>
+<graphql-client config='{"uri": "https://api.graphcms.com/simple/v1/swapi"}'></graphql-client>
+
 <graphql-query result="{{starShipData}}">
-query {
-  Starship(name: "Millennium Falcon") {
-    name
-    class
+  query {
+    Starship(name: "Millennium Falcon") {
+      name
+      class
+    }
   }
-}
 </graphql-query>
-My Star ship: [[starShipData.Starship.name]] [[starShipData.Starship.class]]
+
+<ul>
+  <li>Name: [[data.Starship.name]]</li>
+  <li>Class: [[data.Starship.class]]</li>
+</ul>
 ```
 
 ## Deferred queries
@@ -71,21 +81,22 @@ Deferred queries use `Polymer.Async.idlePeriod.run(executeQuery)` to defer the q
 
 
 ```html
-<!-- Client is already defined, so no need to do it twice. -->
+<!-- Client is already defined, so no need to do it twice -->
 <graphql-query result="{{starShipsData}}" defer>
-query {
-  allStarships(first: 5, filter: {pilots_some: {name_not: ""}}) {
-    name
-    class
-    pilots {
+  query {
+    allStarships(first: 5, filter: {pilots_some: {name_not: ""}}) {
       name
-      homeworld {
+      class
+      pilots {
         name
+        homeworld {
+          name
+        }
       }
     }
   }
-}
 </graphql-query>
+
 <template is="dom-repeat" items="[[starShipsData.allStarships]]" as="starship">
   <h2>[[starship.name]] ([[starship.class]])</h2>
   <ul>
@@ -98,59 +109,85 @@ query {
 
 ## Query variables
 
-When the variables property changes, the query gets automatically re-fetched.
+When the `variables` property changes, the query gets automatically re-fetched.
 
 For a full blown example, take a look at the third demo. The gist is that you need to dynamically calculate the
 variables object based on other properties of the element.
 
 ```html
 <graphql-query result="{{pagination}}" variables="[[_calculateVariables(skip)]]">
-query Pagination($skip: Int!) {
-  allStarships(first: 5, skip: $skip) {
-    name
-    class
+  query Pagination($skip: Int!) {
+    allStarships(first: 5, skip: $skip) {
+      name
+      class
+    }
   }
-}
 </graphql-query>
+```
+
+## Authorization
+
+```html
+<graphql-client
+    config='{
+      "uri": "https://graphql.endpoint/graphql",
+      "options": {
+        "credentials": "same-origin",
+        "transportBatching": true,
+        "headers": {
+          "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjamtjaDFhc2kwMDN5MGExNXhteHIydWMzIiwiaWF0IjoxNTMzNzE5MzY2fQ.gielaRu4-YVrixfuj4AHbVbVo1fBbewkJwFb93krmMQ"
+        }
+      }
+    }'
+    ws-config='{
+      "uri": "wss://graphql.endpoint/graphql",
+      "options": {
+        "reconnect": true,
+        "connectionParams": {
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjamtjaDFhc2kwMDN5MGExNXhteHIydWMzIiwiaWF0IjoxNTMzNzE5MzY2fQ.gielaRu4-YVrixfuj4AHbVbVo1fBbewkJwFb93krmMQ"
+        }
+      }
+    }'>
+</graphql-client>
 ```
 
 ## Mutations (draft)
 
-_Note: the current implementation for mutations is in draft, api might change in a future release._
+_Note: the current implementation for mutations is in draft, API might change in a future release._
 
 The current implementation stays as close to the `<graphql-query>` as possible.
 
 ```html
 <graphql-mutation id="contactMutation" variables="[[contactFormData]]" result="{{contactMutationResult}}">
-mutation SubmitContactForm(
-  $name: String!,
-  $email: String!,
-  $phone: String!,
-  $subject: String!,
-  $message: String!
-) {
-  createContactForm(
-    name: $name,
-    email: $email,
-    phone: $phone,
-    subject: $subject,
-    message: $message
+  mutation SubmitContactForm(
+    $name: String!,
+    $email: String!,
+    $phone: String!,
+    $subject: String!,
+    $message: String!
   ) {
-    id
+    createContactForm(
+      name: $name,
+      email: $email,
+      phone: $phone,
+      subject: $subject,
+      message: $message
+    ) {
+      id
+    }
   }
-}
 </graphql-mutation>
 ```
 
 ```js
-//somewhere after your button has called submit()
+//Somewhere after your button has called submit()
 this.contactFormData = {} //fill the contactMutation with the correct data.
 
 //It will give an error if not everything is filled in correctly.
 this.$.contactMutation.validate()
 
 this.$.contactMutation.execute().then((result) => {
-  //AMAZING RESULT, Mutation has been submitted 🎉
+  //AMAZING RESULT, mutation has been submitted! 🎉
 })
 ```
 

@@ -1,28 +1,31 @@
 <link rel="import" href="../polymer/polymer-element.html">
 
 <!--
-Use to create a connection to your graphql-endpoint.
+## GraphQL client
+
+Use to create a connection to your GraphQL endpoint.
 
 ### Usage
 
-Include the build/apollo-client.js in your website for a default setup.
+Include the `build/apollo-client.js` in your website for a default setup.
 
 ```html
-<script src="bower_components/apollo-client/build/apollo-client.js"></script>
+<script src="bower_components/polymer-apollo-client/build/apollo-client.js"></script>
 ```
 
-Create a single instance of the graphql-client.html
+Create a single instance of the `graphql-client.html`.
 
 ```html
-<link rel="import" href="apollo-client/graphql-client.html" />
-<graphql-client config='{ "uri": "https://graphql.endpoint/graphql" }'></graphql-client>
+<link rel="import" href="bower_components/polymer-apollo-client/graphql-client.html">
+
+<graphql-client config='{"uri": "https://graphql.endpoint/graphql"}'></graphql-client>
 ```
 
-This will (by default) create an instance of Apollo Client with a [BatchedNetworkInterface](http://dev.apollodata.com/core/network.html#BatchingExample).
+This will create an instance of Apollo Client.
 
 ### Custom Apollo Client
 
-You can use your own apollo-client.js file, It should include:
+You can use your own `apollo-client.js` file, It should include:
 
 - `window.Apollo.client` an instance of ApolloClient
 - `window.Apollo.gql` an export of `graphql-tag`
@@ -33,13 +36,13 @@ The _only_ thing `<graphql-client>` exposes:
 window.Apollo.namedClient['default'] = apolloClientInstance;
 ```
 
-For an example how to set this up, take a look at apollo-client.js and at the webpack.config.js to see how to compile
+For an example how to set this up, take a look at `apollo-client.js` and at the `webpack.config.js` to see how to compile
 your version.
 
 @group ApolloClient
 @polymer
 @customElement
-@demo demo/graphql-query-simple.html Simple Query
+@demo demo/graphql-query-simple.html Simple query
 -->
 <dom-module id="graphql-client">
   <template>
@@ -51,22 +54,32 @@ your version.
   </template>
   <script>
     const CLIENT_NAME_DEFAULT = 'default';
-    class GraphqlClient extends Polymer.Element {
-      static get is() { return 'graphql-client' }
+
+    class GraphQLClient extends Polymer.Element {
+      static get is() {
+        return 'graphql-client';
+      }
+
       static get properties() {
         return {
           /**
-           * Will be passed to the createNetworkInterface.
+           * Will be passed to `HttpLink()`.
            */
           config: Object,
+
           /**
-           * Name of the client, when using only a single endpoint in your application, you can omit this parameter.
+           * Will be passed to `WebSocketLink()`.
+           */
+          wsConfig: Object,
+
+          /**
+           * Name of the client. When using only a single endpoint in your app, you can omit this parameter.
            */
           clientName: {
             type: String,
             value: CLIENT_NAME_DEFAULT
           }
-        }
+        };
       }
 
       /**
@@ -75,7 +88,7 @@ your version.
       connectedCallback() {
         super.connectedCallback()
 
-        window.Apollo.namedClient[this.clientName] = window.Apollo.init(this.config);
+        window.Apollo.namedClient[this.clientName] = window.Apollo.init(this.config, this.wsConfig);
 
         if (this.clientName === CLIENT_NAME_DEFAULT) {
           window.Apollo.client = window.Apollo.namedClient[CLIENT_NAME_DEFAULT]
@@ -83,6 +96,7 @@ your version.
         }
       }
     }
-    customElements.define(GraphqlClient.is, GraphqlClient);
+
+    customElements.define(GraphQLClient.is, GraphQLClient);
   </script>
 </dom-module>

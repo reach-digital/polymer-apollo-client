@@ -3,32 +3,29 @@
 <link rel="import" href="graphql-client.html">
 
 <!--
-## GraphQL query
+## GraphQL subscription
 
-An easy interface to create GraphQL queries in your system.
+An easy interface to create GraphQL subscription in your system.
 
-## Building a query
+## Building a subscription
 
 ```html
-<link rel="import" src="bower_components/polymer-apollo-client/graphql-client.html">
+<link rel="import" src="bower_components/polymer-apollo-client/graphql-subscription.html">
 ```
 
 ```html
-<graphql-query variables='{"identifier": "home_hero"}' result="{{result}}">
-  query ($identifier: String!) {
+<graphql-subscription variables='{"identifier": "home_hero"}' result="{{result}}">
+  subscription ($identifier: String!) {
     block: Block(identifier: $identifier) {
       id
       title
       content
     }
   }
-</graphql-query>
+</graphql-subscription>
 ```
 
-The query you want to run becomes the body of the `<graphql-query>` element.
-You can provide additional variables as a JSON object.
-
-When the query resolves the resulting data will be placed in the `result` property.
+When the subscription resolves the resulting data will be placed in the `result` property.
 
 ## Using the result:
 ```html
@@ -43,17 +40,11 @@ Changing the variables or the query will automatically re-fetch all the informat
 The query element implements the `MatryoshkaLoaderMixin` and thus propagates the loading state of the query throughout the system.
 
 @group Apollo Client
-@demo demo/graphql-query-simple.html Simple query
-@demo demo/graphql-query-variables.html Simple query with variables
-@demo demo/graphql-query-defer.html Complex deferred query
 -->
-
 <script>
-  window.PolymerApolloClient = window.PolymerApolloClient || {};
-
-  class GraphQLQuery extends MatryoshkaLoaderMixin(Polymer.Element) {
+  class GraphQLSubscription extends MatryoshkaLoaderMixin(Polymer.Element) {
     static get is() {
-      return 'graphql-query';
+      return 'graphql-subscription';
     }
 
     static get properties() {
@@ -72,58 +63,12 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
          */
         variables: {
           type: Object,
-          value: function () { return {}; }
+          value: {}
         },
 
         /**
-         * Set the `fetchPolicy` option for the query.
-         * [Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchPolicy)
-         */
-        fetchPolicy: {
-          type: String
-        },
-
-        /**
-         * Set the `fetchResults` option for the query.
-         * [Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchResults)
-         */
-        fetchResults: {
-          type: Object,
-          value: null
-        },
-
-        /**
-         * Set the `pollInterval` option for the query.
-         * [Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-pollInterval)
-         */
-        pollInterval: {
-          type: Number
-        },
-
-        /**
-         * Whether or not updates to the network status or network error should
-         * trigger re-rendering of your component.
-         * [Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-notifyOnNetworkStatusChange)
-         */
-        notifyOnNetworkStatusChange: {
-          type: Boolean
-        },
-
-        /**
-         * It is used to halt the execution of the query when not all the
-         * variables are provided yet.
-         * @private
-         */
-        requiredVariables: {
-          type: Object,
-          computed: '_computeRequiredVariables(query)'
-        },
-
-        /**
-         * This allows you to defer the query until a later moment using
-         * `Polymer.Async.idlePeriod`. This solves an issue with rendering
-         * critical data first an deferring non-critical information to a later
-         * moment.
+         * This allows you to defer the query until a later moment using `Polymer.Async.idlePeriod`. This solves an issue
+         * with rendering critical data first and deferring non-critical information to a later moment.
          */
         defer: {
           type: Boolean,
@@ -131,9 +76,8 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
         },
 
         /**
-         * When this is set to `true` it will not execute the query when the
-         * properties `query`+`variables`+`defer` have a value.
-         * To run the query set `hold` to `false` or run `execute()`.
+         * When this is set to `true` it will not execute the query when the properties `query`+`variables`+`defer` have a
+         * value. To run the query set `hold` to `false` or run `execute()`.
          *
          * You might want to set `hostLoading` to `false` when you do this.
          */
@@ -143,7 +87,16 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
         },
 
         /**
-         * Object of the resulting data of the query.
+         * It is used to halt the execution of the query when not all the variables are provided yet.
+         * @private
+         */
+        requiredVariables: {
+          type: Object,
+          computed: '_computeRequiredVariables(query)'
+        },
+
+        /**
+         * Object of the resulting data of the subscription.
          * [Apollo Client Docs](http://dev.apollodata.com/react/queries.html#default-result-props)
          */
         result: {
@@ -152,8 +105,8 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
         },
 
         /**
-         * Sets the default value of `hostLoading` to `true`,
-         * this means this element will always propagate that it is loading.
+         * Sets the default value of `hostLoading` to `true`, this means this element will always propagate that it is
+         * loading.
          * @todo, when `defer` is set, is this properly handled?
          * @protected
          */
@@ -165,7 +118,7 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
          * Connect to a different client.
          */
         clientName: {
-          value: window.PolymerApolloClient.CLIENT_NAME_DEFAULT
+          value: CLIENT_NAME_DEFAULT
         },
 
         /**
@@ -182,7 +135,7 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
     static get observers() {
       return [
         '_onRunQuery(defer, hold, query, variables)'
-      ];
+      ]
     }
 
     /**
@@ -194,7 +147,7 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
     }
 
     /**
-     * @protected
+     *
      */
     connectedCallback() {
       super.connectedCallback();
@@ -204,17 +157,18 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
     }
 
     /**
-     * Actual method to fetch all the data.
-     * This is called when `query`, `variables`, `defer` or `hold` is changed.
+     * Actual method to fetch all the data. This is called when one of the properties: `query`, `variables`, `defer` or `hold` is changed.
      * @protected
      */
     _onRunQuery(defer, hold) {
       if (hold) {
         return;
       }
+
       if (this.validate().error) {
         return;
       }
+
       if (defer) {
         Polymer.Async.idlePeriod.run(this.execute.bind(this));
       } else {
@@ -223,8 +177,7 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
     }
 
     /**
-     * Validate if all the required properties are properly filled in and return
-     * the error if there is something wrong.
+     * Validate if all the required properties are properly filled in and return the error if there is something wrong.
      * @return {Object}
      */
     validate(params = {}) {
@@ -266,8 +219,7 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
     }
 
     /**
-     * Execute the query/mutation directly.
-     * (used in combination with `hold` or with `<graphql-mutation>`).
+     * Execute the query/mutation directly (used in combination with `hold` or with `<graphql-mutation>`).
      *
      * @return {ObservableQuery}
      */
@@ -286,6 +238,7 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
         query,
         variables,
       } = this;
+
       const client = this._getClient();
       if (!client) {
         throw new Error(
@@ -293,13 +246,13 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
           'Initialize one on window.Apollo.client'
         );
       }
-      const observableQuery = client.watchQuery({
+      let observableQuery = client.subscribe({
         fetchPolicy,
         fetchResults,
         notifyOnNetworkStatusChange,
         pollInterval,
-        query,
-        variables,
+        query: this.query,
+        variables: this.variables
       }).subscribe({
         next: (result) => {
           if (result.data) {
@@ -320,22 +273,23 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
         if (definition.variableDefinitions) {
           definition.variableDefinitions.forEach(function (variable) {
             if (variable.type.kind === 'NonNullType') {
-              requiredVariables.push(variable.variable.name.value);
+              requiredVariables.push(variable.variable.name.value)
             }
           });
         }
       });
+
       return requiredVariables;
     }
 
     _updateQuery() {
-      let query = this.textContent;
+      const query = this.textContent;
       if (!query) return;
       this.query = window.Apollo.gql([query]);
     }
 
     _getClient() {
-      return window.Apollo.client;
+      return window.Apollo.namedClient[this.clientName]
     }
 
     /**
@@ -349,5 +303,5 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
     }
   }
 
-  customElements.define(GraphQLQuery.is, GraphQLQuery);
+  customElements.define(GraphQLSubscription.is, GraphQLSubscription);
 </script>
