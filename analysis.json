@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "elements": [
     {
-      "description": "## GraphQL client\n\nUse to create a connection to your GraphQL endpoint.\n\n### Usage\n\nInclude the `build/apollo-client.js` in your website for a default setup.\n\n```html\n<script src=\"bower_components/polymer-apollo-client/build/apollo-client.js\"></script>\n```\n\nCreate a single instance of the `graphql-client.html`.\n\n```html\n<link rel=\"import\" href=\"bower_components/polymer-apollo-client/graphql-client.html\">\n\n<graphql-client config='{\"uri\": \"https://graphql.endpoint/graphql\"}'></graphql-client>\n```\n\nThis will create an instance of Apollo Client.\n\n### Custom Apollo Client\n\nYou can use your own `apollo-client.js` file, It should include:\n\n- `window.Apollo.client` an instance of ApolloClient\n- `window.Apollo.gql` an export of `graphql-tag`\n\nThe _only_ thing `<graphql-client>` exposes:\n\n```js\nwindow.Apollo.namedClient['default'] = apolloClientInstance;\n```\n\nFor an example how to set this up, take a look at `apollo-client.js` and at the `webpack.config.js` to see how to compile\nyour version.",
+      "description": "## GraphQL client\n\nUse to create a connection to your GraphQL endpoint.\n\n### Usage\n\nImport the `build/apollo-client.js` in your website for a default setup.\n\n```html\n<script src=\"bower_components/polymer-apollo-client/build/apollo-client.js\"></script>\n```\n\nIf you need GraphQL subscriptions support, import the `build/apollo-client-subscription.js`\ninstead of `build/apollo-client.js`.\n\n```html\n<script src=\"bower_components/polymer-apollo-client/build/apollo-client-subscription.js\"></script>\n```\n\nCreate a single instance of the `<graphql-client.html>`.\n\n```html\n<link rel=\"import\" href=\"bower_components/polymer-apollo-client/graphql-client.html\">\n\n<graphql-client config='{\"uri\": \"https://graphql.endpoint/graphql\"}'></graphql-client>\n```\n\nThis will create an instance of Apollo Client.\n\n### Custom Apollo Client\n\nYou can use your own `apollo-client-***.js` file. It should include:\n\n- `window.Apollo.client` an instance of `ApolloClient`\n- `window.Apollo.gql` an export of `graphql-tag`\n\nThe _only_ thing `<graphql-client>` exposes:\n\n```js\nwindow.Apollo.namedClient['default'] = apolloClientInstance;\n```\n\nFor an example how to set this up, take a look at `apollo-client.js`, `apollo-client-subscription.js`\nand at the `webpack.config.js` to see how to compile your version.",
       "summary": "",
       "path": "graphql-client.html",
       "properties": [
@@ -588,11 +588,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 67,
+              "line": 74,
               "column": 10
             },
             "end": {
-              "line": 67,
+              "line": 74,
               "column": 24
             }
           },
@@ -607,11 +607,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 72,
+              "line": 79,
               "column": 10
             },
             "end": {
-              "line": 72,
+              "line": 79,
               "column": 26
             }
           },
@@ -626,11 +626,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 77,
+              "line": 84,
               "column": 10
             },
             "end": {
-              "line": 80,
+              "line": 87,
               "column": 11
             }
           },
@@ -2677,11 +2677,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 87,
+              "line": 94,
               "column": 6
             },
             "end": {
-              "line": 96,
+              "line": 103,
               "column": 7
             }
           },
@@ -3746,11 +3746,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 57,
+          "line": 64,
           "column": 4
         },
         "end": {
-          "line": 97,
+          "line": 104,
           "column": 5
         }
       },
@@ -3763,11 +3763,11 @@
           "description": "Will be passed to `HttpLink()`.",
           "sourceRange": {
             "start": {
-              "line": 67,
+              "line": 74,
               "column": 10
             },
             "end": {
-              "line": 67,
+              "line": 74,
               "column": 24
             }
           },
@@ -3779,11 +3779,11 @@
           "description": "Will be passed to `WebSocketLink()`.",
           "sourceRange": {
             "start": {
-              "line": 72,
+              "line": 79,
               "column": 10
             },
             "end": {
-              "line": 72,
+              "line": 79,
               "column": 26
             }
           },
@@ -3795,11 +3795,11 @@
           "description": "Name of the client. When using only a single endpoint in your app, you can omit this parameter.",
           "sourceRange": {
             "start": {
-              "line": 77,
+              "line": 84,
               "column": 10
             },
             "end": {
-              "line": 80,
+              "line": 87,
               "column": 11
             }
           },
@@ -5164,7 +5164,7 @@
       "tagname": "graphql-mutation"
     },
     {
-      "description": "## GraphQL subscription\n\nAn easy interface to create GraphQL subscription in your system.\n\n## Building a subscription\n\n```html\n<link rel=\"import\" src=\"bower_components/polymer-apollo-client/graphql-subscription.html\">\n```\n\n```html\n<graphql-subscription variables='{\"identifier\": \"home_hero\"}' result=\"{{result}}\">\n  subscription ($identifier: String!) {\n    block: Block(identifier: $identifier) {\n      id\n      title\n      content\n    }\n  }\n</graphql-subscription>\n```\n\nWhen the subscription resolves the resulting data will be placed in the `result` property.\n\n## Using the result:\n```html\n<h1>[[result.block.title]]</h1>\n<div class=\"content\">[[result.block.content]]</div>\n```\n\nChanging the variables or the query will automatically re-fetch all the information.\n\n## Detecting loading states\n\nThe query element implements the `MatryoshkaLoaderMixin` and thus propagates the loading state of the query throughout the system.",
+      "description": "## GraphQL subscription\n\nAn easy interface to create GraphQL subscription in your system.\n\n_Note: to use `<graphql-subscription>` you should import `build/apollo-client-subscription.js`\ninstead of `build/apollo-client.js`:_\n\n```html\n<script src=\"bower_components/polymer-apollo-client/build/apollo-client-subscription.js\"></script>\n```\n\n## Building a subscription\n\n```html\n<link rel=\"import\" src=\"bower_components/polymer-apollo-client/graphql-subscription.html\">\n```\n\n```html\n<graphql-subscription variables='{\"identifier\": \"home_hero\"}' result=\"{{result}}\">\n  subscription ($identifier: String!) {\n    block: Block(identifier: $identifier) {\n      id\n      title\n      content\n    }\n  }\n</graphql-subscription>\n```\n\nWhen the subscription resolves the resulting data will be placed in the `result` property.\n\n## Using the result:\n```html\n<h1>[[result.block.title]]</h1>\n<div class=\"content\">[[result.block.content]]</div>\n```\n\nChanging the variables or the query will automatically re-fetch all the information.\n\n## Detecting loading states\n\nThe query element implements the `MatryoshkaLoaderMixin` and thus propagates the loading state of the query throughout the system.",
       "summary": "",
       "path": "graphql-subscription.html",
       "properties": [
@@ -5175,11 +5175,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 56,
+              "line": 63,
               "column": 8
             },
             "end": {
-              "line": 58,
+              "line": 65,
               "column": 9
             }
           },
@@ -5194,11 +5194,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 63,
+              "line": 70,
               "column": 8
             },
             "end": {
-              "line": 66,
+              "line": 73,
               "column": 9
             }
           },
@@ -5214,11 +5214,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 72,
+              "line": 79,
               "column": 8
             },
             "end": {
-              "line": 75,
+              "line": 82,
               "column": 9
             }
           },
@@ -5234,11 +5234,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 83,
+              "line": 90,
               "column": 8
             },
             "end": {
-              "line": 86,
+              "line": 93,
               "column": 9
             }
           },
@@ -5254,11 +5254,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 92,
+              "line": 99,
               "column": 8
             },
             "end": {
-              "line": 95,
+              "line": 102,
               "column": 9
             }
           },
@@ -5275,11 +5275,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 101,
+              "line": 108,
               "column": 8
             },
             "end": {
-              "line": 104,
+              "line": 111,
               "column": 9
             }
           },
@@ -5296,11 +5296,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 112,
+              "line": 119,
               "column": 8
             },
             "end": {
-              "line": 114,
+              "line": 121,
               "column": 9
             }
           },
@@ -5316,11 +5316,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 119,
+              "line": 126,
               "column": 8
             },
             "end": {
-              "line": 121,
+              "line": 128,
               "column": 9
             }
           },
@@ -5335,11 +5335,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 126,
+              "line": 133,
               "column": 8
             },
             "end": {
-              "line": 130,
+              "line": 137,
               "column": 9
             }
           },
@@ -5359,11 +5359,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 151,
+              "line": 158,
               "column": 4
             },
             "end": {
-              "line": 156,
+              "line": 163,
               "column": 5
             }
           },
@@ -5376,11 +5376,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 162,
+              "line": 169,
               "column": 4
             },
             "end": {
-              "line": 176,
+              "line": 183,
               "column": 5
             }
           },
@@ -5400,11 +5400,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 182,
+              "line": 189,
               "column": 4
             },
             "end": {
-              "line": 218,
+              "line": 225,
               "column": 5
             }
           },
@@ -5424,11 +5424,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 225,
+              "line": 232,
               "column": 4
             },
             "end": {
-              "line": 267,
+              "line": 274,
               "column": 5
             }
           },
@@ -5448,11 +5448,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 269,
+              "line": 276,
               "column": 4
             },
             "end": {
-              "line": 282,
+              "line": 289,
               "column": 5
             }
           },
@@ -5469,11 +5469,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 284,
+              "line": 291,
               "column": 4
             },
             "end": {
-              "line": 288,
+              "line": 295,
               "column": 5
             }
           },
@@ -5486,11 +5486,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 290,
+              "line": 297,
               "column": 4
             },
             "end": {
-              "line": 292,
+              "line": 299,
               "column": 5
             }
           },
@@ -5503,11 +5503,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 299,
+              "line": 306,
               "column": 4
             },
             "end": {
-              "line": 302,
+              "line": 309,
               "column": 5
             }
           },
@@ -5524,11 +5524,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 44,
+          "line": 51,
           "column": 2
         },
         "end": {
-          "line": 303,
+          "line": 310,
           "column": 3
         }
       },
@@ -5541,11 +5541,11 @@
           "description": "JSON Object of the variables passed with the query.",
           "sourceRange": {
             "start": {
-              "line": 63,
+              "line": 70,
               "column": 8
             },
             "end": {
-              "line": 66,
+              "line": 73,
               "column": 9
             }
           },
@@ -5557,11 +5557,11 @@
           "description": "This allows you to defer the query until a later moment using `Polymer.Async.idlePeriod`. This solves an issue\nwith rendering critical data first and deferring non-critical information to a later moment.",
           "sourceRange": {
             "start": {
-              "line": 72,
+              "line": 79,
               "column": 8
             },
             "end": {
-              "line": 75,
+              "line": 82,
               "column": 9
             }
           },
@@ -5573,11 +5573,11 @@
           "description": "When this is set to `true` it will not execute the query when the properties `query`+`variables`+`defer` have a\nvalue. To run the query set `hold` to `false` or run `execute()`.\n\nYou might want to set `hostLoading` to `false` when you do this.",
           "sourceRange": {
             "start": {
-              "line": 83,
+              "line": 90,
               "column": 8
             },
             "end": {
-              "line": 86,
+              "line": 93,
               "column": 9
             }
           },
@@ -5589,11 +5589,11 @@
           "description": "Object of the resulting data of the subscription.\n[Apollo Client Docs](http://dev.apollodata.com/react/queries.html#default-result-props)",
           "sourceRange": {
             "start": {
-              "line": 101,
+              "line": 108,
               "column": 8
             },
             "end": {
-              "line": 104,
+              "line": 111,
               "column": 9
             }
           },
@@ -5605,11 +5605,11 @@
           "description": "Connect to a different client.",
           "sourceRange": {
             "start": {
-              "line": 119,
+              "line": 126,
               "column": 8
             },
             "end": {
-              "line": 121,
+              "line": 128,
               "column": 9
             }
           },
@@ -5620,11 +5620,11 @@
           "description": "Last error, if any.",
           "sourceRange": {
             "start": {
-              "line": 126,
+              "line": 133,
               "column": 8
             },
             "end": {
-              "line": 130,
+              "line": 137,
               "column": 9
             }
           },

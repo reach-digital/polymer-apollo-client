@@ -58,6 +58,11 @@ Easy integration with GraphQL.
 ```
 
 ```html
+<!-- Import the `build/apollo-client-subscription.js` instead of `build/apollo-client.js`, if you need GraphQL subscriptions support -->
+<script src="bower_components/polymer-apollo-client/build/apollo-client-subscription.js"></script>
+```
+
+```html
 <!-- Define a graphql-client somewhere once -->
 <graphql-client config='{"uri": "https://api.graphcms.com/simple/v1/swapi"}'></graphql-client>
 

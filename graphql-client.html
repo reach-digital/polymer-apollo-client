@@ -7,13 +7,20 @@ Use to create a connection to your GraphQL endpoint.
 
 ### Usage
 
-Include the `build/apollo-client.js` in your website for a default setup.
+Import the `build/apollo-client.js` in your website for a default setup.
 
 ```html
 <script src="bower_components/polymer-apollo-client/build/apollo-client.js"></script>
 ```
 
-Create a single instance of the `graphql-client.html`.
+If you need GraphQL subscriptions support, import the `build/apollo-client-subscription.js`
+instead of `build/apollo-client.js`.
+
+```html
+<script src="bower_components/polymer-apollo-client/build/apollo-client-subscription.js"></script>
+```
+
+Create a single instance of the `<graphql-client.html>`.
 
 ```html
 <link rel="import" href="bower_components/polymer-apollo-client/graphql-client.html">
@@ -25,9 +32,9 @@ This will create an instance of Apollo Client.
 
 ### Custom Apollo Client
 
-You can use your own `apollo-client.js` file, It should include:
+You can use your own `apollo-client-***.js` file. It should include:
 
-- `window.Apollo.client` an instance of ApolloClient
+- `window.Apollo.client` an instance of `ApolloClient`
 - `window.Apollo.gql` an export of `graphql-tag`
 
 The _only_ thing `<graphql-client>` exposes:
@@ -36,8 +43,8 @@ The _only_ thing `<graphql-client>` exposes:
 window.Apollo.namedClient['default'] = apolloClientInstance;
 ```
 
-For an example how to set this up, take a look at `apollo-client.js` and at the `webpack.config.js` to see how to compile
-your version.
+For an example how to set this up, take a look at `apollo-client.js`, `apollo-client-subscription.js`
+and at the `webpack.config.js` to see how to compile your version.
 
 @group ApolloClient
 @polymer
