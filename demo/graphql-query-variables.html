@@ -8,35 +8,39 @@
   <title>graphql-query</title>
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="../../paper-styles/demo-pages.html">
-  <link rel="import" href="../../iron-demo-helpers/demo-snippet.html"/>
+
+  <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
   <script src="../build/apollo-client.js"></script>
-  <link rel="import" href="../graphql-client.html"/>
-  <link rel="import" href="../graphql-query.html"/>
+
+  <link rel="import" href="../graphql-client.html">
+  <link rel="import" href="../graphql-query.html">
 </head>
 <body>
-<h1>Initializing the client</h1>
 
-<graphql-client config='{ "uri": "https://api.graphcms.com/simple/v1/swapi" }'></graphql-client>
-
-<h1>Fetching simple data</h1>
+<h1>Simple query with variables</h1>
 
 <demo-snippet>
   <template>
-    <dom-bind><!--only necessary for demo-->
-      <template><!--only necessary for demo-->
-        <graphql-query result="{{data}}">
-          query {
-            Starship(name: "Millennium Falcon") {
+    <graphql-client config='{"uri": "https://api.graphcms.com/simple/v1/swapi"}'></graphql-client>
+
+    <dom-bind><!-- only necessary for demo -->
+      <template is="dom-bind"><!-- only necessary for demo -->
+        <graphql-query variables='{"name": "X-wing"}' result="{{data}}">
+          query($name: String!) {
+            Starship(name: $name) {
               name
               class
             }
           }
         </graphql-query>
 
-        Loaded asap: [[data.Starship.name]] [[data.Starship.class]]
-      </template>
-    </dom-bind>
+        <ul>
+          <li>Name: [[data.Starship.name]]</li>
+          <li>Class: [[data.Starship.class]]</li>
+        </ul>
+      </template><!-- only necessary for demo -->
+    </dom-bind><!-- only necessary for demo -->
   </template>
 </demo-snippet>
 

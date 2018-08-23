@@ -1,7 +1,9 @@
-<link rel="import" href="graphql-query.html" />
+<link rel="import" href="graphql-query.html">
 
 <!--
-_Note: the current implementation for mutations is in draft, api might change in a future release._
+## GraphQL mutation
+
+_Note: the current implementation for mutations is in draft, API might change in a future release._
 
 The current implementation stays as close to the `<graphql-query>` as possible.
 
@@ -28,14 +30,14 @@ mutation SubmitContactForm(
 ```
 
 ```js
-//somewhere after your button has called submit()
+//Somewhere after your button has called submit()
 this.contactFormData = {} //fill the contactMutation with the correct data.
 
 //It will give an error if not everything is filled in correctly.
 this.$.contactMutation.validate()
 
 this.$.contactMutation.execute().then((result) => {
-  //AMAZING RESULT, Mutation has been submitted 🎉
+  //AMAZING RESULT, mutation has been submitted! 🎉
 })
 ```
 
@@ -46,41 +48,74 @@ this.$.contactMutation.execute().then((result) => {
 <dom-module id="graphql-mutation">
   <script>
     class GraphQLMutation extends GraphQLQuery {
-      static get is() { return 'graphql-mutation' }
+      static get is() {
+        return 'graphql-mutation';
+      }
+
       static get properties() {
         return {
           hold: {
             value: true
           },
+
           hostLoading: {
             value: false
+          },
+
+          /**
+           * Last error, if any.
+           */
+          lastError: {
+            value: null,
+            readOnly: true,
+            notify: true
           }
-        }
+        };
       }
 
       /**
-       * Execute the query/mutation directly (used in combination with hold or with graphql-mutation)
+       * Execute the query/mutation directly
+       * (used in combination with `hold` or with `<graphql-mutation>`).
        *
        * @return {Promise}
        */
-      execute() {
-        let validationResult = this.validate();
+      execute(params) {
+        let validationResult = this.validate(params);
         if (validationResult.error) {
           console.error(validationResult.msg, this);
           return;
         }
 
         this.hostLoading = true;
+        const mutation = this.query;
+        const { variables } = this;
+        const client = this._getClient();
+        if (!client) {
+          throw new Error(
+            'There is no GraphQL client available. ' +
+            'Initialize one on window.Apollo.client'
+          );
+        }
 
-        return this._getClient().mutate({
-          mutation: this.query,
-          variables: this.variables,
-        }).then((result) => {
-          this.hostLoading = false;
-          this.result = result.data;
-        }).catch((error) => {
-          console.log('there was an error sending the query', error);
-        });
+        return client.mutate(Object.assign({ mutation, variables }, params))
+          .then((result) => {
+            this.hostLoading = false;
+            this.result = result.data;
+          })
+          .catch((error) => {
+            this._handleError(error);
+            console.error('There was an error sending the query', error);
+          });
+      }
+
+    /**
+     * Fired when an error is received.
+     *
+     * @event error
+     */
+      _handleError(error) {
+        this.lastError = error;
+        this.dispatchEvent(new CustomEvent('error', { bubbles: true, composed: true, detail: error }))
       }
     }
     customElements.define(GraphQLMutation.is, GraphQLMutation);
