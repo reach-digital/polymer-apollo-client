@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Full demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+
+    <script src="../build/apollo-client-subscription.js"></script>
+
+    <link rel="import" href="../graphql-client.html">
+    <link rel="import" href="../graphql-query.html">
+    <link rel="import" href="../graphql-mutation.html">
+    <link rel="import" href="../graphql-subscription.html">
+
+    <link rel="import" href="../../paper-input/paper-input.html">
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles"></style>
+    </custom-style>
+  </head>
+  <body>
+    <graphql-client
+        config='{"uri": "https://eu1.prisma.sh/polymer-apollo-client/demo/dev"}'
+        ws-config='{"uri": "wss://eu1.prisma.sh/polymer-apollo-client/demo/dev"}'>
+    </graphql-client>
+
+    <div class="vertical-section-container centered">
+      <h3>Query (search by content)</h3>
+
+      <demo-snippet>
+        <template>
+          <dom-bind><!-- only necessary for demo -->
+            <template is="dom-bind"><!-- only necessary for demo -->
+              <paper-input
+                  label="Search by content"
+                  value="{{search}}">
+              </paper-input>
+
+              <graphql-query variables$='{"search": "[[search]]"}' result="{{data}}">
+                query queryOperationName ($search: String) {
+                  posts(where: {content_contains: $search}) {
+                    id
+                    title
+                    content
+                    published
+                  }
+                }
+              </graphql-query>
+
+              <template is="dom-repeat" items="[[data.posts]]" as="post">
+                <ul>
+                  <li>ID: [[post.id]]</li>
+                  <li>Title: [[post.title]]</li>
+                  <li>Content: [[post.content]]</li>
+                  <li>Published: [[post.published]]</li>
+                </ul>
+              </template>
+            </template><!-- only necessary for demo -->
+          </dom-bind><!-- only necessary for demo -->
+        </template>
+      </demo-snippet>
+
+      <h3>Subscription</h3>
+
+      <demo-snippet>
+        <template>
+          <dom-bind><!-- only necessary for demo -->
+            <template><!-- only necessary for demo -->
+              <graphql-subscription result="{{data}}">
+                subscription subscriptionOperationName {
+                  post(where: {mutation_in: [CREATED, UPDATED, DELETED]}) {
+                    mutation
+                    node {
+                      id
+                      title
+                      content
+                      published
+                    }
+                    previousValues {
+                      id
+                      title
+                      content
+                      published
+                    }
+                  }
+                }
+              </graphql-subscription>
+
+              <p>Mutation type: [[data.post.mutation]]</p>
+
+              <p>Current values:</p>
+
+              <ul>
+                <li>ID: [[data.post.node.id]]</li>
+                <li>Title: [[data.post.node.title]]</li>
+                <li>Content: [[data.post.node.content]]</li>
+                <li>Published: [[data.post.node.published]]</li>
+              </ul>
+
+              <p>Previous values:</p>
+
+              <ul>
+                <li>ID: [[data.post.previousValues.id]]</li>
+                <li>Title: [[data.post.previousValues.title]]</li>
+                <li>Content: [[data.post.previousValues.content]]</li>
+                <li>Published: [[data.post.previousValues.published]]</li>
+              </ul>
+            </template><!-- only necessary for demo -->
+          </dom-bind><!-- only necessary for demo -->
+        </template>
+      </demo-snippet>
+
+      <h3>Mutation (create post)</h3>
+
+      <demo-snippet>
+        <template>
+          <dom-bind><!-- only necessary for demo -->
+            <template is="dom-bind"><!-- only necessary for demo -->
+              <paper-input
+                  label="Title"
+                  value="{{title}}">
+              </paper-input>
+
+              <paper-input
+                  label="Content"
+                  value="{{content}}">
+              </paper-input>
+
+              <graphql-mutation id="createPostMutation" variables$='{"title": "[[title]]", "content": "[[content]]"}' result="{{data}}">
+                mutation createPostMutationOperationName(
+                  $title: String!
+                  $content: String!
+                ) {
+                  createPost(
+                    data: {
+                      title: $title
+                      content: $content
+                    }
+                  ) {
+                    id
+                    title
+                    content
+                    published
+                  }
+                }
+              </graphql-mutation>
+
+              <button onclick="document.getElementById('createPostMutation').execute()">Create</button>
+
+              <ul>
+                <li>ID: [[data.createPost.id]]</li>
+                <li>Title: [[data.createPost.title]]</li>
+                <li>Content: [[data.createPost.content]]</li>
+                <li>Published: [[data.createPost.published]]</li>
+              </ul>
+            </template><!-- only necessary for demo -->
+          </dom-bind><!-- only necessary for demo -->
+        </template>
+      </demo-snippet>
+
+      <h3>Mutation (update post)</h3>
+
+      <demo-snippet>
+        <template>
+          <dom-bind><!-- only necessary for demo -->
+            <template is="dom-bind"><!-- only necessary for demo -->
+              <paper-input
+                  label="ID"
+                  value="{{id}}">
+              </paper-input>
+
+              <paper-input
+                  label="Title"
+                  value="{{title}}">
+              </paper-input>
+
+              <paper-input
+                  label="Content"
+                  value="{{content}}">
+              </paper-input>
+
+              <graphql-mutation id="updatePostMutation" variables$='{"id": "[[id]]", "title": "[[title]]", "content": "[[content]]"}' result="{{data}}">
+                mutation updatePostMutationOperationName(
+                  $id: ID!
+                  $title: String!
+                  $content: String!
+                ) {
+                  updatePost(
+                    where: {id: $id}
+                    data: {
+                      title: $title
+                      content: $content
+                    }
+                  ) {
+                    id
+                    title
+                    content
+                    published
+                  }
+                }
+              </graphql-mutation>
+
+              <button onclick="document.getElementById('updatePostMutation').execute()">Update</button>
+
+              <ul>
+                <li>ID: [[data.updatePost.id]]</li>
+                <li>Title: [[data.updatePost.title]]</li>
+                <li>Content: [[data.updatePost.content]]</li>
+                <li>Published: [[data.updatePost.published]]</li>
+              </ul>
+            </template><!-- only necessary for demo -->
+          </dom-bind><!-- only necessary for demo -->
+        </template>
+      </demo-snippet>
+
+      <h3>Mutation (delete post)</h3>
+
+      <demo-snippet>
+        <template>
+          <dom-bind><!-- only necessary for demo -->
+            <template is="dom-bind"><!-- only necessary for demo -->
+              <paper-input
+                  label="ID"
+                  value="{{id}}">
+              </paper-input>
+
+              <graphql-mutation id="deletePostMutation" variables$='{"id": "[[id]]"}' result="{{data}}">
+                mutation deletePostMutationOperationName($id: ID!) {
+                  deletePost(where: {id: $id}) {
+                    id
+                    title
+                    content
+                    published
+                  }
+                }
+              </graphql-mutation>
+
+              <button onclick="document.getElementById('deletePostMutation').execute()">Delete</button>
+
+              <ul>
+                <li>ID: [[data.deletePost.id]]</li>
+                <li>Title: [[data.deletePost.title]]</li>
+                <li>Content: [[data.deletePost.content]]</li>
+                <li>Published: [[data.deletePost.published]]</li>
+              </ul>
+            </template><!-- only necessary for demo -->
+          </dom-bind><!-- only necessary for demo -->
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>
