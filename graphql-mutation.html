@@ -47,79 +47,78 @@ this.$.contactMutation.execute().then((result) => {
 @demo demo/full-demo.html Full demo
 -->
 
-<dom-module id="graphql-mutation">
-  <script>
-    class GraphQLMutation extends GraphQLQuery {
-      static get is() {
-        return 'graphql-mutation';
-      }
+<script>
+  class GraphQLMutation extends GraphQLQuery {
+    static get is() {
+      return 'graphql-mutation';
+    }
 
-      static get properties() {
-        return {
-          hold: {
-            value: true
-          },
+    static get properties() {
+      return {
+        hold: {
+          value: true
+        },
 
-          hostLoading: {
-            value: false
-          },
+        hostLoading: {
+          value: false
+        },
 
-          /**
-           * Last error, if any.
-           */
-          lastError: {
-            value: null,
-            readOnly: true,
-            notify: true
-          }
-        };
-      }
-
-      /**
-       * Execute the query/mutation directly
-       * (used in combination with `hold` or with `<graphql-mutation>`).
-       *
-       * @return {Promise}
-       */
-      execute(params) {
-        let validationResult = this.validate(params);
-        if (validationResult.error) {
-          console.error(validationResult.msg, this);
-          return;
+        /**
+         * Last error, if any.
+         */
+        lastError: {
+          value: null,
+          readOnly: true,
+          notify: true
         }
-
-        this.hostLoading = true;
-        const mutation = this.query;
-        const { variables } = this;
-        const client = this._getClient();
-        if (!client) {
-          throw new Error(
-            'There is no GraphQL client available. ' +
-            'Initialize one on window.Apollo.client'
-          );
-        }
-
-        return client.mutate(Object.assign({ mutation, variables }, params))
-          .then((result) => {
-            this.hostLoading = false;
-            this.result = result.data;
-          })
-          .catch((error) => {
-            this._handleError(error);
-            console.error('There was an error sending the query', error);
-          });
-      }
+      };
+    }
 
     /**
-     * Fired when an error is received.
+     * Execute the query/mutation directly
+     * (used in combination with `hold` or with `<graphql-mutation>`).
      *
-     * @event error
+     * @return {Promise}
      */
-      _handleError(error) {
-        this.lastError = error;
-        this.dispatchEvent(new CustomEvent('error', { bubbles: true, composed: true, detail: error }))
+    execute(params) {
+      let validationResult = this.validate(params);
+      if (validationResult.error) {
+        console.error(validationResult.msg, this);
+        return;
       }
+
+      this.hostLoading = true;
+      const mutation = this.query;
+      const { variables } = this;
+      const client = this._getClient();
+      if (!client) {
+        throw new Error(
+          'There is no GraphQL client available. ' +
+          'Initialize one on window.Apollo.client'
+        );
+      }
+
+      return client.mutate(Object.assign({ mutation, variables }, params))
+        .then((result) => {
+          this.hostLoading = false;
+          this.result = result.data;
+        })
+        .catch((error) => {
+          this._handleError(error);
+          console.error('There was an error sending the query', error);
+        });
     }
-    customElements.define(GraphQLMutation.is, GraphQLMutation);
-  </script>
-</dom-module>
+
+  /**
+   * Fired when an error is received.
+   *
+   * @event error
+   */
+    _handleError(error) {
+      this.lastError = error;
+      this.dispatchEvent(new CustomEvent('error', { bubbles: true, composed: true, detail: error }))
+    }
+  }
+
+  customElements.define(GraphQLMutation.is, GraphQLMutation);
+</script>

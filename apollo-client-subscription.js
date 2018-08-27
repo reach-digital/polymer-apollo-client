@@ -13,31 +13,25 @@ const errors = onError(({ graphQLErrors, networkError }) => {
       console.error(`[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}`);
     });
   }
+
   if (networkError) {
     console.error(`[Network error]: ${networkError}`);
   }
 });
 
-const init = (config, wsConfig) => {
-  if (!config && !wsConfig) {
-    console.error('Trying to initialize an ApolloClient without having a config set');
+const init = (config, wsConfig, apolloConfig) => {
+  if (!config) {
+    console.warn('Trying to initialize ApolloClient without config property, default config will be used.');
+  } else if (!config.uri) {
+    console.warn('Trying to initialize ApolloClient without config.uri property, default config.uri will be used.');
   }
 
-  let httpLink, wsLink, splitLink;
+  const httpLink = new HttpLink(config);
 
-  if (config && /^http[s]{0,1}:/.test(config.uri)) {
-    httpLink = new HttpLink(
-      Object.assign({}, config.options, {
-        uri: config.uri,
-      })
-    );
-  }
+  let wsLink, splitLink;
 
-  if (wsConfig && /^w[s]{1,2}:/.test(wsConfig.uri)) {
-    wsLink = new WebSocketLink({
-      uri: wsConfig.uri,
-      options: wsConfig.options,
-    });
+  if (wsConfig) {
+    wsLink = new WebSocketLink(wsConfig);
   }
 
   // Using the ability to split links, you can send data to each link
@@ -56,14 +50,14 @@ const init = (config, wsConfig) => {
 
   const link = splitLink || wsLink || httpLink;
 
-  if (!link) {
-    console.error('Trying to initialize an ApolloClient without having correct a config set');
-  }
+  const cache = new InMemoryCache().restore(window.__APOLLO_STATE__);
 
-  return new ApolloClient({
+  const fullConfig = Object.assign({}, {
     link: link,
-    cache: new InMemoryCache().restore(window.__APOLLO_STATE__)
-  });
+    cache: cache
+  }, apolloConfig);
+
+  return new ApolloClient(fullConfig);
 }
 
 const namedClient = {};

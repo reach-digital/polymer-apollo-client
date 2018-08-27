@@ -53,59 +53,61 @@ and at the `webpack.config.js` to see how to compile your version.
 @demo demo/full-demo.html Full demo
 -->
 
-<dom-module id="graphql-client">
-  <template>
-    <style>
-      :host {
-        display: none;
-      }
-    </style>
-  </template>
-  <script>
-    const CLIENT_NAME_DEFAULT = 'default';
+<script>
+  const CLIENT_NAME_DEFAULT = 'default';
 
-    class GraphQLClient extends Polymer.Element {
-      static get is() {
-        return 'graphql-client';
-      }
-
-      static get properties() {
-        return {
-          /**
-           * Will be passed to `HttpLink()`.
-           */
-          config: Object,
-
-          /**
-           * Will be passed to `WebSocketLink()`.
-           */
-          wsConfig: Object,
-
-          /**
-           * Name of the client. When using only a single endpoint in your app, you can omit this parameter.
-           */
-          clientName: {
-            type: String,
-            value: CLIENT_NAME_DEFAULT
-          }
-        };
-      }
-
-      /**
-       * @protected
-       */
-      connectedCallback() {
-        super.connectedCallback()
-
-        window.Apollo.namedClient[this.clientName] = window.Apollo.init(this.config, this.wsConfig);
-
-        if (this.clientName === CLIENT_NAME_DEFAULT) {
-          window.Apollo.client = window.Apollo.namedClient[CLIENT_NAME_DEFAULT]
-          window.__APOLLO_CLIENT__ = window.Apollo.client
-        }
-      }
+  class GraphQLClient extends Polymer.Element {
+    static get is() {
+      return 'graphql-client';
     }
 
-    customElements.define(GraphQLClient.is, GraphQLClient);
-  </script>
-</dom-module>
+    static get properties() {
+      return {
+        /**
+         * Will be passed to `HttpLink()`.
+         */
+        config: {
+          type: Object
+        },
+
+        /**
+         * Will be passed to `WebSocketLink()`.
+         */
+        wsConfig: {
+          type: Object
+        },
+
+        /**
+         * Will be passed to `ApolloClient()`.
+         */
+        apolloConfig: {
+          type: Object
+        },
+
+        /**
+         * Name of the client. When using only a single endpoint in your app, you can omit this parameter.
+         */
+        clientName: {
+          type: String,
+          value: CLIENT_NAME_DEFAULT
+        }
+      };
+    }
+
+    /**
+     * @protected
+     */
+    connectedCallback() {
+      super.connectedCallback()
+
+      window.Apollo.namedClient[this.clientName] = window.Apollo.init(this.config, this.wsConfig, this.apolloConfig);
+
+      if (this.clientName === CLIENT_NAME_DEFAULT) {
+        window.Apollo.client = window.Apollo.namedClient[CLIENT_NAME_DEFAULT]
+        window.__APOLLO_CLIENT__ = window.Apollo.client
+      }
+    }
+  }
+
+  customElements.define(GraphQLClient.is, GraphQLClient);
+</script>
