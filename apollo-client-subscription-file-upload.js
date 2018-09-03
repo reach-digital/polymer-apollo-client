@@ -4,6 +4,7 @@ import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 import { concat, split } from 'apollo-link';
+import { createUploadLink } from 'apollo-upload-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
 
@@ -26,7 +27,7 @@ const init = (config, wsConfig, apolloConfig) => {
     console.warn('Trying to initialize ApolloClient without config.uri property, default config.uri will be used.');
   }
 
-  const httpLink = new HttpLink(config);
+  const httpLink = createUploadLink(config);
 
   let wsLink, splitLink;
 
