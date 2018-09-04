@@ -130,18 +130,19 @@ variables object based on other properties of the element.
 </graphql-query>
 ```
 
-## Authorization
+## Options
+
+You can pass options to `HttpLink()`, `WebSocketLink()` and `ApolloClient()` using
+`config`, `wsConfig` and `apolloConfig` properties. It may be useful for authorization,
+connection to Apollo Client DevTools, etc.
 
 ```html
 <graphql-client
     config='{
       "uri": "https://graphql.endpoint/graphql",
-      "options": {
-        "credentials": "same-origin",
-        "transportBatching": true,
-        "headers": {
-          "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjamtjaDFhc2kwMDN5MGExNXhteHIydWMzIiwiaWF0IjoxNTMzNzE5MzY2fQ.gielaRu4-YVrixfuj4AHbVbVo1fBbewkJwFb93krmMQ"
-        }
+      "transportBatching": true,
+      "headers": {
+        "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjamtjaDFhc2kwMDN5MGExNXhteHIydWMzIiwiaWF0IjoxNTMzNzE5MzY2fQ.gielaRu4-YVrixfuj4AHbVbVo1fBbewkJwFb93krmMQ"
       }
     }'
     ws-config='{
@@ -152,7 +153,8 @@ variables object based on other properties of the element.
           "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjamtjaDFhc2kwMDN5MGExNXhteHIydWMzIiwiaWF0IjoxNTMzNzE5MzY2fQ.gielaRu4-YVrixfuj4AHbVbVo1fBbewkJwFb93krmMQ"
         }
       }
-    }'>
+    }'
+    apollo-config='{"connectToDevTools": true}'>
 </graphql-client>
 ```
 

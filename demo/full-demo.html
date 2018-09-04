@@ -26,8 +26,17 @@
   </head>
   <body>
     <graphql-client
-        config='{"uri": "https://eu1.prisma.sh/polymer-apollo-client/demo/dev"}'
-        ws-config='{"uri": "wss://eu1.prisma.sh/polymer-apollo-client/demo/dev"}'>
+        config='{
+          "uri": "https://eu1.prisma.sh/polymer-apollo-client/demo/dev",
+          "transportBatching": true
+        }'
+        ws-config='{
+          "uri": "wss://eu1.prisma.sh/polymer-apollo-client/demo/dev",
+          "options": {
+            "reconnect": true
+          }
+        }'
+        apollo-config='{"connectToDevTools": true}'>
     </graphql-client>
 
     <div class="vertical-section-container centered">
