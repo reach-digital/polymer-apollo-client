@@ -5,7 +5,8 @@ const BabiliPlugin = require('babili-webpack-plugin');
 module.exports = {
   entry: {
     'apollo-client': './apollo-client.js',
-    'apollo-client-subscription': './apollo-client-subscription.js'
+    'apollo-client-subscription': './apollo-client-subscription.js',
+    'apollo-client-subscription-file-upload': './apollo-client-subscription-file-upload.js'
   },
   output: {
     library: 'Apollo',

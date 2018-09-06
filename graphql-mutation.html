@@ -7,6 +7,13 @@ _Note: the current implementation for mutations is in draft, API might change in
 
 The current implementation stays as close to the `<graphql-query>` as possible.
 
+_Note: to use file upload via GraphQL you should import `build/apollo-client-subscription-file-upload.js`
+instead of `build/apollo-client.js`:_
+
+```html
+<script src="bower_components/polymer-apollo-client/build/apollo-client-subscription-file-upload.js"></script>
+```
+
 ```
 <graphql-mutation id="contactMutation" variables="[[contactFormData]]" result="{{contactMutationResult}}">
 mutation SubmitContactForm(
@@ -45,6 +52,7 @@ this.$.contactMutation.execute().then((result) => {
 @polymer
 @customElement
 @demo demo/full-demo.html Full demo
+@demo demo/file-upload.html File upload
 -->
 
 <script>

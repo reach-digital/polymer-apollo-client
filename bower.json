@@ -21,7 +21,10 @@
     "apollo-client",
     "query",
     "mutation",
-    "subscription"
+    "subscription",
+    "file-upload",
+    "file",
+    "upload"
   ],
   "homepage": "https://github.com/reach-digital/polymer-apollo-client",
   "ignore": [

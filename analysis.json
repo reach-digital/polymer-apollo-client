@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "elements": [
     {
-      "description": "## GraphQL client\n\nUse to create a connection to your GraphQL endpoint.\n\n### Usage\n\nImport the `build/apollo-client.js` in your website for a default setup.\n\n```html\n<script src=\"bower_components/polymer-apollo-client/build/apollo-client.js\"></script>\n```\n\nIf you need GraphQL subscriptions support, import the `build/apollo-client-subscription.js`\ninstead of `build/apollo-client.js`.\n\n```html\n<script src=\"bower_components/polymer-apollo-client/build/apollo-client-subscription.js\"></script>\n```\n\nCreate a single instance of the `<graphql-client.html>`.\n\n```html\n<link rel=\"import\" href=\"bower_components/polymer-apollo-client/graphql-client.html\">\n\n<graphql-client config='{\"uri\": \"https://graphql.endpoint/graphql\"}'></graphql-client>\n```\n\nThis will create an instance of Apollo Client.\n\n### Custom Apollo Client\n\nYou can use your own `apollo-client-***.js` file. It should include:\n\n- `window.Apollo.client` an instance of `ApolloClient`\n- `window.Apollo.gql` an export of `graphql-tag`\n\nThe _only_ thing `<graphql-client>` exposes:\n\n```js\nwindow.Apollo.namedClient['default'] = apolloClientInstance;\n```\n\nFor an example how to set this up, take a look at `apollo-client.js`, `apollo-client-subscription.js`\nand at the `webpack.config.js` to see how to compile your version.",
+      "description": "## GraphQL client\n\nUse to create a connection to your GraphQL endpoint.\n\n### Usage\n\nImport the `build/apollo-client.js` in your website for a default setup.\n\n```html\n<script src=\"bower_components/polymer-apollo-client/build/apollo-client.js\"></script>\n```\n\nIf you need GraphQL subscriptions support, import the `build/apollo-client-subscription.js`\ninstead of `build/apollo-client.js`.\n\n```html\n<script src=\"bower_components/polymer-apollo-client/build/apollo-client-subscription.js\"></script>\n```\n\nIf you need file upload via GraphQL support, import the `build/apollo-client-subscription-file-upload.js`\ninstead of `build/apollo-client.js`.\n\n```html\n<script src=\"bower_components/polymer-apollo-client/build/apollo-client-subscription-file-upload.js\"></script>\n```\n\nCreate a single instance of the `<graphql-client.html>`.\n\n```html\n<link rel=\"import\" href=\"bower_components/polymer-apollo-client/graphql-client.html\">\n\n<graphql-client config='{\"uri\": \"https://graphql.endpoint/graphql\"}'></graphql-client>\n```\n\nThis will create an instance of Apollo Client.\n\n### Custom Apollo Client\n\nYou can use your own `apollo-client-***.js` file. It should include:\n\n- `window.Apollo.client` an instance of `ApolloClient`\n- `window.Apollo.gql` an export of `graphql-tag`\n\nThe _only_ thing `<graphql-client>` exposes:\n\n```js\nwindow.Apollo.namedClient['default'] = apolloClientInstance;\n```\n\nFor an example how to set this up, take a look at `apollo-client.js`, `apollo-client-subscription.js`\nand at the `webpack.config.js` to see how to compile your version.",
       "summary": "",
       "path": "graphql-client.html",
       "properties": [
@@ -588,25 +588,6 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 68,
-              "column": 8
-            },
-            "end": {
-              "line": 70,
-              "column": 9
-            }
-          },
-          "metadata": {
-            "polymer": {}
-          }
-        },
-        {
-          "name": "wsConfig",
-          "type": "Object",
-          "description": "Will be passed to `WebSocketLink()`.",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
               "line": 75,
               "column": 8
             },
@@ -620,9 +601,9 @@
           }
         },
         {
-          "name": "apolloConfig",
+          "name": "wsConfig",
           "type": "Object",
-          "description": "Will be passed to `ApolloClient()`.",
+          "description": "Will be passed to `WebSocketLink()`.",
           "privacy": "public",
           "sourceRange": {
             "start": {
@@ -639,9 +620,9 @@
           }
         },
         {
-          "name": "clientName",
-          "type": "string",
-          "description": "Name of the client. When using only a single endpoint in your app, you can omit this parameter.",
+          "name": "apolloConfig",
+          "type": "Object",
+          "description": "Will be passed to `ApolloClient()`.",
           "privacy": "public",
           "sourceRange": {
             "start": {
@@ -649,7 +630,26 @@
               "column": 8
             },
             "end": {
-              "line": 92,
+              "line": 91,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "clientName",
+          "type": "string",
+          "description": "Name of the client. When using only a single endpoint in your app, you can omit this parameter.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 96,
+              "column": 8
+            },
+            "end": {
+              "line": 99,
               "column": 9
             }
           },
@@ -2701,11 +2701,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 99,
+              "line": 106,
               "column": 4
             },
             "end": {
-              "line": 108,
+              "line": 115,
               "column": 5
             }
           },
@@ -3774,11 +3774,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 58,
+          "line": 65,
           "column": 2
         },
         "end": {
-          "line": 109,
+          "line": 116,
           "column": 3
         }
       },
@@ -3789,22 +3789,6 @@
         {
           "name": "config",
           "description": "Will be passed to `HttpLink()`.",
-          "sourceRange": {
-            "start": {
-              "line": 68,
-              "column": 8
-            },
-            "end": {
-              "line": 70,
-              "column": 9
-            }
-          },
-          "metadata": {},
-          "type": "Object"
-        },
-        {
-          "name": "ws-config",
-          "description": "Will be passed to `WebSocketLink()`.",
           "sourceRange": {
             "start": {
               "line": 75,
@@ -3819,8 +3803,8 @@
           "type": "Object"
         },
         {
-          "name": "apollo-config",
-          "description": "Will be passed to `ApolloClient()`.",
+          "name": "ws-config",
+          "description": "Will be passed to `WebSocketLink()`.",
           "sourceRange": {
             "start": {
               "line": 82,
@@ -3835,15 +3819,31 @@
           "type": "Object"
         },
         {
-          "name": "client-name",
-          "description": "Name of the client. When using only a single endpoint in your app, you can omit this parameter.",
+          "name": "apollo-config",
+          "description": "Will be passed to `ApolloClient()`.",
           "sourceRange": {
             "start": {
               "line": 89,
               "column": 8
             },
             "end": {
-              "line": 92,
+              "line": 91,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "Object"
+        },
+        {
+          "name": "client-name",
+          "description": "Name of the client. When using only a single endpoint in your app, you can omit this parameter.",
+          "sourceRange": {
+            "start": {
+              "line": 96,
+              "column": 8
+            },
+            "end": {
+              "line": 99,
               "column": 9
             }
           },
@@ -4513,7 +4513,7 @@
       "tagname": "graphql-query"
     },
     {
-      "description": "## GraphQL mutation\n\n_Note: the current implementation for mutations is in draft, API might change in a future release._\n\nThe current implementation stays as close to the `<graphql-query>` as possible.\n\n```\n<graphql-mutation id=\"contactMutation\" variables=\"[[contactFormData]]\" result=\"{{contactMutationResult}}\">\nmutation SubmitContactForm(\n  $name: String!,\n  $email: String!,\n  $phone: String!,\n  $subject: String!,\n  $message: String!\n) {\n  createContactForm(\n    name: $name,\n    email: $email,\n    phone: $phone,\n    subject: $subject,\n    message: $message\n  ) {\n    id\n  }\n}\n</graphql-mutation>\n```\n\n```js\n//Somewhere after your button has called submit()\nthis.contactFormData = {} //fill the contactMutation with the correct data.\n\n//It will give an error if not everything is filled in correctly.\nthis.$.contactMutation.validate()\n\nthis.$.contactMutation.execute().then((result) => {\n  //AMAZING RESULT, mutation has been submitted! 🎉\n})\n```",
+      "description": "## GraphQL mutation\n\n_Note: the current implementation for mutations is in draft, API might change in a future release._\n\nThe current implementation stays as close to the `<graphql-query>` as possible.\n\n_Note: to use file upload via GraphQL you should import `build/apollo-client-subscription-file-upload.js`\ninstead of `build/apollo-client.js`:_\n\n```html\n<script src=\"bower_components/polymer-apollo-client/build/apollo-client-subscription-file-upload.js\"></script>\n```\n\n```\n<graphql-mutation id=\"contactMutation\" variables=\"[[contactFormData]]\" result=\"{{contactMutationResult}}\">\nmutation SubmitContactForm(\n  $name: String!,\n  $email: String!,\n  $phone: String!,\n  $subject: String!,\n  $message: String!\n) {\n  createContactForm(\n    name: $name,\n    email: $email,\n    phone: $phone,\n    subject: $subject,\n    message: $message\n  ) {\n    id\n  }\n}\n</graphql-mutation>\n```\n\n```js\n//Somewhere after your button has called submit()\nthis.contactFormData = {} //fill the contactMutation with the correct data.\n\n//It will give an error if not everything is filled in correctly.\nthis.$.contactMutation.validate()\n\nthis.$.contactMutation.execute().then((result) => {\n  //AMAZING RESULT, mutation has been submitted! 🎉\n})\n```",
       "summary": "",
       "path": "graphql-mutation.html",
       "properties": [
@@ -4697,11 +4697,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 57,
+              "line": 65,
               "column": 8
             },
             "end": {
-              "line": 59,
+              "line": 67,
               "column": 9
             }
           },
@@ -4740,11 +4740,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 61,
+              "line": 69,
               "column": 8
             },
             "end": {
-              "line": 63,
+              "line": 71,
               "column": 9
             }
           },
@@ -4781,11 +4781,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 68,
+              "line": 76,
               "column": 8
             },
             "end": {
-              "line": 72,
+              "line": 80,
               "column": 9
             }
           },
@@ -4876,11 +4876,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 82,
+              "line": 90,
               "column": 4
             },
             "end": {
-              "line": 109,
+              "line": 117,
               "column": 5
             }
           },
@@ -4961,11 +4961,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 116,
+              "line": 124,
               "column": 4
             },
             "end": {
-              "line": 119,
+              "line": 127,
               "column": 5
             }
           },
@@ -4982,16 +4982,20 @@
         {
           "url": "demo/full-demo.html",
           "description": "Full demo"
+        },
+        {
+          "url": "demo/file-upload.html",
+          "description": "File upload"
         }
       ],
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 50,
+          "line": 58,
           "column": 2
         },
         "end": {
-          "line": 120,
+          "line": 128,
           "column": 3
         }
       },
@@ -5112,11 +5116,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 57,
+              "line": 65,
               "column": 8
             },
             "end": {
-              "line": 59,
+              "line": 67,
               "column": 9
             }
           },
@@ -5162,11 +5166,11 @@
           "description": "Last error, if any.",
           "sourceRange": {
             "start": {
-              "line": 68,
+              "line": 76,
               "column": 8
             },
             "end": {
-              "line": 72,
+              "line": 80,
               "column": 9
             }
           },
@@ -5177,11 +5181,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 61,
+              "line": 69,
               "column": 8
             },
             "end": {
-              "line": 63,
+              "line": 71,
               "column": 9
             }
           },
