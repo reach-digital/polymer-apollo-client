@@ -3906,15 +3906,15 @@
         {
           "name": "fetchPolicy",
           "type": "string",
-          "description": "Set the `fetchPolicy` option for the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchPolicy)",
+          "description": "`fetchPolicy` determines where the client may return a result from. The options are:\n- `cache-first` (default): return result from cache. Only fetch from network if cached result is not available.\n- `cache-and-network`: return result from cache first (if it exists), then return network result once it's available.\n- `cache-only`: return result from cache if available, fail otherwise.\n- `no-cache`: return result from network, fail if network call doesn't succeed, don't save to cache.\n- `network-only`: return result from network, fail if network call doesn't succeed, save to cache.\n- `standby`: only for queries that aren't actively watched, but should be available for `refetch` and `updateQueries`.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 84,
+              "line": 89,
               "column": 8
             },
             "end": {
-              "line": 86,
+              "line": 91,
               "column": 9
             }
           },
@@ -3924,36 +3924,54 @@
         },
         {
           "name": "fetchResults",
-          "type": "Object",
-          "description": "Set the `fetchResults` option for the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchResults)",
+          "type": "boolean",
+          "description": "Whether or not to fetch results.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 92,
+              "line": 96,
               "column": 8
             },
             "end": {
-              "line": 95,
+              "line": 98,
               "column": 9
             }
           },
           "metadata": {
             "polymer": {}
+          }
+        },
+        {
+          "name": "errorPolicy",
+          "type": "string",
+          "description": "`errorPolicy` determines the level of events for errors in the execution result. The options are:\n- `none` (default): any errors from the request are treated like runtime errors and the observable is stopped (XXX this is default to lower breaking changes going from AC 1.0 => 2.0).\n- `ignore`: errors from the request do not stop the observable, but also don't call `next`.\n- `all`: errors are treated like data and will notify observables.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 106,
+              "column": 8
+            },
+            "end": {
+              "line": 108,
+              "column": 9
+            }
           },
-          "defaultValue": "null"
+          "metadata": {
+            "polymer": {}
+          }
         },
         {
           "name": "pollInterval",
           "type": "number",
-          "description": "Set the `pollInterval` option for the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-pollInterval)",
+          "description": "The time interval (in milliseconds) on which this query should be\nrefetched from the server.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 101,
+              "line": 114,
               "column": 8
             },
             "end": {
-              "line": 103,
+              "line": 116,
               "column": 9
             }
           },
@@ -3964,15 +3982,15 @@
         {
           "name": "notifyOnNetworkStatusChange",
           "type": "boolean",
-          "description": "Whether or not updates to the network status or network error should\ntrigger re-rendering of your component.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-notifyOnNetworkStatusChange)",
+          "description": "Whether or not updates to the network status should trigger next on the observer of this query.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 110,
+              "line": 121,
               "column": 8
             },
             "end": {
-              "line": 112,
+              "line": 123,
               "column": 9
             }
           },
@@ -3987,11 +4005,11 @@
           "privacy": "private",
           "sourceRange": {
             "start": {
-              "line": 119,
+              "line": 130,
               "column": 8
             },
             "end": {
-              "line": 122,
+              "line": 133,
               "column": 9
             }
           },
@@ -4008,11 +4026,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 130,
+              "line": 141,
               "column": 8
             },
             "end": {
-              "line": 133,
+              "line": 144,
               "column": 9
             }
           },
@@ -4028,11 +4046,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 142,
+              "line": 153,
               "column": 8
             },
             "end": {
-              "line": 145,
+              "line": 156,
               "column": 9
             }
           },
@@ -4048,11 +4066,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 151,
+              "line": 162,
               "column": 8
             },
             "end": {
-              "line": 154,
+              "line": 165,
               "column": 9
             }
           },
@@ -4064,23 +4082,66 @@
         },
         {
           "name": "hostLoading",
-          "type": "?",
+          "type": "boolean",
           "description": "Sets the default value of `hostLoading` to `true`,\nthis means this element will always propagate that it is loading.",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 162,
+              "line": 173,
               "column": 8
             },
             "end": {
-              "line": 164,
+              "line": 176,
               "column": 9
             }
           },
           "metadata": {
-            "polymer": {}
+            "polymer": {
+              "notify": true
+            }
+          }
+        },
+        {
+          "name": "networkStatus",
+          "type": "number",
+          "description": "The current status of a query’s execution.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 181,
+              "column": 8
+            },
+            "end": {
+              "line": 184,
+              "column": 9
+            }
           },
-          "defaultValue": "true"
+          "metadata": {
+            "polymer": {
+              "notify": true
+            }
+          }
+        },
+        {
+          "name": "stale",
+          "type": "boolean",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 186,
+              "column": 8
+            },
+            "end": {
+              "line": 189,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "notify": true
+            }
+          }
         },
         {
           "name": "clientName",
@@ -4089,11 +4150,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 169,
+              "line": 194,
               "column": 8
             },
             "end": {
-              "line": 171,
+              "line": 196,
               "column": 9
             }
           },
@@ -4108,11 +4169,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 176,
+              "line": 201,
               "column": 8
             },
             "end": {
-              "line": 180,
+              "line": 205,
               "column": 9
             }
           },
@@ -4132,11 +4193,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 201,
+              "line": 226,
               "column": 4
             },
             "end": {
-              "line": 206,
+              "line": 231,
               "column": 5
             }
           },
@@ -4149,11 +4210,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 213,
+              "line": 238,
               "column": 4
             },
             "end": {
-              "line": 225,
+              "line": 250,
               "column": 5
             }
           },
@@ -4173,11 +4234,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 232,
+              "line": 257,
               "column": 4
             },
             "end": {
-              "line": 268,
+              "line": 293,
               "column": 5
             }
           },
@@ -4197,11 +4258,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 276,
+              "line": 301,
               "column": 4
             },
             "end": {
-              "line": 317,
+              "line": 343,
               "column": 5
             }
           },
@@ -4221,11 +4282,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 319,
+              "line": 345,
               "column": 4
             },
             "end": {
-              "line": 331,
+              "line": 357,
               "column": 5
             }
           },
@@ -4242,11 +4303,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 333,
+              "line": 359,
               "column": 4
             },
             "end": {
-              "line": 337,
+              "line": 363,
               "column": 5
             }
           },
@@ -4259,11 +4320,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 339,
+              "line": 365,
               "column": 4
             },
             "end": {
-              "line": 341,
+              "line": 367,
               "column": 5
             }
           },
@@ -4276,11 +4337,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 348,
+              "line": 374,
               "column": 4
             },
             "end": {
-              "line": 351,
+              "line": 378,
               "column": 5
             }
           },
@@ -4318,7 +4379,7 @@
           "column": 2
         },
         "end": {
-          "line": 352,
+          "line": 379,
           "column": 3
         }
       },
@@ -4344,14 +4405,14 @@
         },
         {
           "name": "fetch-policy",
-          "description": "Set the `fetchPolicy` option for the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchPolicy)",
+          "description": "`fetchPolicy` determines where the client may return a result from. The options are:\n- `cache-first` (default): return result from cache. Only fetch from network if cached result is not available.\n- `cache-and-network`: return result from cache first (if it exists), then return network result once it's available.\n- `cache-only`: return result from cache if available, fail otherwise.\n- `no-cache`: return result from network, fail if network call doesn't succeed, don't save to cache.\n- `network-only`: return result from network, fail if network call doesn't succeed, save to cache.\n- `standby`: only for queries that aren't actively watched, but should be available for `refetch` and `updateQueries`.",
           "sourceRange": {
             "start": {
-              "line": 84,
+              "line": 89,
               "column": 8
             },
             "end": {
-              "line": 86,
+              "line": 91,
               "column": 9
             }
           },
@@ -4360,30 +4421,46 @@
         },
         {
           "name": "fetch-results",
-          "description": "Set the `fetchResults` option for the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchResults)",
+          "description": "Whether or not to fetch results.",
           "sourceRange": {
             "start": {
-              "line": 92,
+              "line": 96,
               "column": 8
             },
             "end": {
-              "line": 95,
+              "line": 98,
               "column": 9
             }
           },
           "metadata": {},
-          "type": "Object"
+          "type": "boolean"
         },
         {
-          "name": "poll-interval",
-          "description": "Set the `pollInterval` option for the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-pollInterval)",
+          "name": "error-policy",
+          "description": "`errorPolicy` determines the level of events for errors in the execution result. The options are:\n- `none` (default): any errors from the request are treated like runtime errors and the observable is stopped (XXX this is default to lower breaking changes going from AC 1.0 => 2.0).\n- `ignore`: errors from the request do not stop the observable, but also don't call `next`.\n- `all`: errors are treated like data and will notify observables.",
           "sourceRange": {
             "start": {
-              "line": 101,
+              "line": 106,
               "column": 8
             },
             "end": {
-              "line": 103,
+              "line": 108,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "poll-interval",
+          "description": "The time interval (in milliseconds) on which this query should be\nrefetched from the server.",
+          "sourceRange": {
+            "start": {
+              "line": 114,
+              "column": 8
+            },
+            "end": {
+              "line": 116,
               "column": 9
             }
           },
@@ -4392,14 +4469,14 @@
         },
         {
           "name": "notify-on-network-status-change",
-          "description": "Whether or not updates to the network status or network error should\ntrigger re-rendering of your component.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-notifyOnNetworkStatusChange)",
+          "description": "Whether or not updates to the network status should trigger next on the observer of this query.",
           "sourceRange": {
             "start": {
-              "line": 110,
+              "line": 121,
               "column": 8
             },
             "end": {
-              "line": 112,
+              "line": 123,
               "column": 9
             }
           },
@@ -4411,11 +4488,11 @@
           "description": "This allows you to defer the query until a later moment using\n`Polymer.Async.idlePeriod`. This solves an issue with rendering\ncritical data first an deferring non-critical information to a later\nmoment.",
           "sourceRange": {
             "start": {
-              "line": 130,
+              "line": 141,
               "column": 8
             },
             "end": {
-              "line": 133,
+              "line": 144,
               "column": 9
             }
           },
@@ -4427,11 +4504,11 @@
           "description": "When this is set to `true` it will not execute the query when the\nproperties `query`+`variables`+`defer` have a value.\nTo run the query set `hold` to `false` or run `execute()`.\n\nYou might want to set `hostLoading` to `false` when you do this.",
           "sourceRange": {
             "start": {
-              "line": 142,
+              "line": 153,
               "column": 8
             },
             "end": {
-              "line": 145,
+              "line": 156,
               "column": 9
             }
           },
@@ -4443,11 +4520,11 @@
           "description": "Object of the resulting data of the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/queries.html#default-result-props)",
           "sourceRange": {
             "start": {
-              "line": 151,
+              "line": 162,
               "column": 8
             },
             "end": {
-              "line": 154,
+              "line": 165,
               "column": 9
             }
           },
@@ -4455,15 +4532,47 @@
           "type": "Object"
         },
         {
+          "name": "network-status",
+          "description": "The current status of a query’s execution.",
+          "sourceRange": {
+            "start": {
+              "line": 181,
+              "column": 8
+            },
+            "end": {
+              "line": 184,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "number"
+        },
+        {
+          "name": "stale",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 186,
+              "column": 8
+            },
+            "end": {
+              "line": 189,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "boolean"
+        },
+        {
           "name": "client-name",
           "description": "Connect to a different client.",
           "sourceRange": {
             "start": {
-              "line": 169,
+              "line": 194,
               "column": 8
             },
             "end": {
-              "line": 171,
+              "line": 196,
               "column": 9
             }
           },
@@ -4474,11 +4583,11 @@
           "description": "Last error, if any.",
           "sourceRange": {
             "start": {
-              "line": 176,
+              "line": 201,
               "column": 8
             },
             "end": {
-              "line": 180,
+              "line": 205,
               "column": 9
             }
           },
@@ -4496,6 +4605,18 @@
           "type": "CustomEvent",
           "name": "result-changed",
           "description": "Fired when the `result` property changes.",
+          "metadata": {}
+        },
+        {
+          "type": "CustomEvent",
+          "name": "network-status-changed",
+          "description": "Fired when the `networkStatus` property changes.",
+          "metadata": {}
+        },
+        {
+          "type": "CustomEvent",
+          "name": "stale-changed",
+          "description": "Fired when the `stale` property changes.",
           "metadata": {}
         },
         {
@@ -4563,16 +4684,16 @@
         {
           "name": "fetchPolicy",
           "type": "string",
-          "description": "Set the `fetchPolicy` option for the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchPolicy)",
+          "description": "`fetchPolicy` determines where the client may return a result from. The options are:\n- `cache-first` (default): return result from cache. Only fetch from network if cached result is not available.\n- `cache-and-network`: return result from cache first (if it exists), then return network result once it's available.\n- `cache-only`: return result from cache if available, fail otherwise.\n- `no-cache`: return result from network, fail if network call doesn't succeed, don't save to cache.\n- `network-only`: return result from network, fail if network call doesn't succeed, save to cache.\n- `standby`: only for queries that aren't actively watched, but should be available for `refetch` and `updateQueries`.",
           "privacy": "public",
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 84,
+              "line": 89,
               "column": 8
             },
             "end": {
-              "line": 86,
+              "line": 91,
               "column": 9
             }
           },
@@ -4583,39 +4704,59 @@
         },
         {
           "name": "fetchResults",
-          "type": "Object",
-          "description": "Set the `fetchResults` option for the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchResults)",
+          "type": "boolean",
+          "description": "Whether or not to fetch results.",
           "privacy": "public",
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 92,
+              "line": 96,
               "column": 8
             },
             "end": {
-              "line": 95,
+              "line": 98,
               "column": 9
             }
           },
           "metadata": {
             "polymer": {}
           },
-          "defaultValue": "null",
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "errorPolicy",
+          "type": "string",
+          "description": "`errorPolicy` determines the level of events for errors in the execution result. The options are:\n- `none` (default): any errors from the request are treated like runtime errors and the observable is stopped (XXX this is default to lower breaking changes going from AC 1.0 => 2.0).\n- `ignore`: errors from the request do not stop the observable, but also don't call `next`.\n- `all`: errors are treated like data and will notify observables.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 106,
+              "column": 8
+            },
+            "end": {
+              "line": 108,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
           "inheritedFrom": "GraphQLQuery"
         },
         {
           "name": "pollInterval",
           "type": "number",
-          "description": "Set the `pollInterval` option for the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-pollInterval)",
+          "description": "The time interval (in milliseconds) on which this query should be\nrefetched from the server.",
           "privacy": "public",
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 101,
+              "line": 114,
               "column": 8
             },
             "end": {
-              "line": 103,
+              "line": 116,
               "column": 9
             }
           },
@@ -4627,16 +4768,16 @@
         {
           "name": "notifyOnNetworkStatusChange",
           "type": "boolean",
-          "description": "Whether or not updates to the network status or network error should\ntrigger re-rendering of your component.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-notifyOnNetworkStatusChange)",
+          "description": "Whether or not updates to the network status should trigger next on the observer of this query.",
           "privacy": "public",
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 110,
+              "line": 121,
               "column": 8
             },
             "end": {
-              "line": 112,
+              "line": 123,
               "column": 9
             }
           },
@@ -4653,11 +4794,11 @@
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 119,
+              "line": 130,
               "column": 8
             },
             "end": {
-              "line": 122,
+              "line": 133,
               "column": 9
             }
           },
@@ -4676,11 +4817,11 @@
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 130,
+              "line": 141,
               "column": 8
             },
             "end": {
-              "line": 133,
+              "line": 144,
               "column": 9
             }
           },
@@ -4718,11 +4859,11 @@
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 151,
+              "line": 162,
               "column": 8
             },
             "end": {
-              "line": 154,
+              "line": 165,
               "column": 9
             }
           },
@@ -4735,7 +4876,7 @@
         },
         {
           "name": "hostLoading",
-          "type": "?",
+          "type": "boolean",
           "description": "",
           "privacy": "public",
           "sourceRange": {
@@ -4744,14 +4885,62 @@
               "column": 8
             },
             "end": {
-              "line": 71,
+              "line": 73,
               "column": 9
             }
           },
           "metadata": {
-            "polymer": {}
+            "polymer": {
+              "notify": true
+            }
           },
           "defaultValue": "false"
+        },
+        {
+          "name": "networkStatus",
+          "type": "number",
+          "description": "The current status of a query’s execution.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 181,
+              "column": 8
+            },
+            "end": {
+              "line": 184,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "notify": true
+            }
+          },
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "stale",
+          "type": "boolean",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 186,
+              "column": 8
+            },
+            "end": {
+              "line": 189,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "notify": true
+            }
+          },
+          "inheritedFrom": "GraphQLQuery"
         },
         {
           "name": "clientName",
@@ -4761,11 +4950,11 @@
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 169,
+              "line": 194,
               "column": 8
             },
             "end": {
-              "line": 171,
+              "line": 196,
               "column": 9
             }
           },
@@ -4780,12 +4969,13 @@
           "description": "Last error, if any.",
           "privacy": "public",
           "sourceRange": {
+            "file": "graphql-query.html",
             "start": {
-              "line": 76,
+              "line": 201,
               "column": 8
             },
             "end": {
-              "line": 80,
+              "line": 205,
               "column": 9
             }
           },
@@ -4795,7 +4985,8 @@
               "readOnly": true
             }
           },
-          "defaultValue": "null"
+          "defaultValue": "null",
+          "inheritedFrom": "GraphQLQuery"
         }
       ],
       "methods": [
@@ -4806,11 +4997,11 @@
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 201,
+              "line": 226,
               "column": 4
             },
             "end": {
-              "line": 206,
+              "line": 231,
               "column": 5
             }
           },
@@ -4825,11 +5016,11 @@
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 213,
+              "line": 238,
               "column": 4
             },
             "end": {
-              "line": 225,
+              "line": 250,
               "column": 5
             }
           },
@@ -4851,11 +5042,11 @@
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 232,
+              "line": 257,
               "column": 4
             },
             "end": {
-              "line": 268,
+              "line": 293,
               "column": 5
             }
           },
@@ -4876,11 +5067,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 90,
+              "line": 83,
               "column": 4
             },
             "end": {
-              "line": 117,
+              "line": 109,
               "column": 5
             }
           },
@@ -4901,11 +5092,11 @@
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 319,
+              "line": 345,
               "column": 4
             },
             "end": {
-              "line": 331,
+              "line": 357,
               "column": 5
             }
           },
@@ -4924,11 +5115,11 @@
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 333,
+              "line": 359,
               "column": 4
             },
             "end": {
-              "line": 337,
+              "line": 363,
               "column": 5
             }
           },
@@ -4943,11 +5134,11 @@
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 339,
+              "line": 365,
               "column": 4
             },
             "end": {
-              "line": 341,
+              "line": 367,
               "column": 5
             }
           },
@@ -4960,12 +5151,13 @@
           "description": "Fired when an error is received.",
           "privacy": "protected",
           "sourceRange": {
+            "file": "graphql-query.html",
             "start": {
-              "line": 124,
+              "line": 374,
               "column": 4
             },
             "end": {
-              "line": 127,
+              "line": 378,
               "column": 5
             }
           },
@@ -4974,7 +5166,8 @@
             {
               "name": "error"
             }
-          ]
+          ],
+          "inheritedFrom": "GraphQLQuery"
         }
       ],
       "staticMethods": [],
@@ -4995,7 +5188,7 @@
           "column": 2
         },
         "end": {
-          "line": 128,
+          "line": 110,
           "column": 3
         }
       },
@@ -5023,15 +5216,15 @@
         },
         {
           "name": "fetch-policy",
-          "description": "Set the `fetchPolicy` option for the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchPolicy)",
+          "description": "`fetchPolicy` determines where the client may return a result from. The options are:\n- `cache-first` (default): return result from cache. Only fetch from network if cached result is not available.\n- `cache-and-network`: return result from cache first (if it exists), then return network result once it's available.\n- `cache-only`: return result from cache if available, fail otherwise.\n- `no-cache`: return result from network, fail if network call doesn't succeed, don't save to cache.\n- `network-only`: return result from network, fail if network call doesn't succeed, save to cache.\n- `standby`: only for queries that aren't actively watched, but should be available for `refetch` and `updateQueries`.",
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 84,
+              "line": 89,
               "column": 8
             },
             "end": {
-              "line": 86,
+              "line": 91,
               "column": 9
             }
           },
@@ -5041,33 +5234,51 @@
         },
         {
           "name": "fetch-results",
-          "description": "Set the `fetchResults` option for the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchResults)",
+          "description": "Whether or not to fetch results.",
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 92,
+              "line": 96,
               "column": 8
             },
             "end": {
-              "line": 95,
+              "line": 98,
               "column": 9
             }
           },
           "metadata": {},
-          "type": "Object",
+          "type": "boolean",
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "error-policy",
+          "description": "`errorPolicy` determines the level of events for errors in the execution result. The options are:\n- `none` (default): any errors from the request are treated like runtime errors and the observable is stopped (XXX this is default to lower breaking changes going from AC 1.0 => 2.0).\n- `ignore`: errors from the request do not stop the observable, but also don't call `next`.\n- `all`: errors are treated like data and will notify observables.",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 106,
+              "column": 8
+            },
+            "end": {
+              "line": 108,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string",
           "inheritedFrom": "GraphQLQuery"
         },
         {
           "name": "poll-interval",
-          "description": "Set the `pollInterval` option for the query.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-pollInterval)",
+          "description": "The time interval (in milliseconds) on which this query should be\nrefetched from the server.",
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 101,
+              "line": 114,
               "column": 8
             },
             "end": {
-              "line": 103,
+              "line": 116,
               "column": 9
             }
           },
@@ -5077,15 +5288,15 @@
         },
         {
           "name": "notify-on-network-status-change",
-          "description": "Whether or not updates to the network status or network error should\ntrigger re-rendering of your component.\n[Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-notifyOnNetworkStatusChange)",
+          "description": "Whether or not updates to the network status should trigger next on the observer of this query.",
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 110,
+              "line": 121,
               "column": 8
             },
             "end": {
-              "line": 112,
+              "line": 123,
               "column": 9
             }
           },
@@ -5099,11 +5310,11 @@
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 130,
+              "line": 141,
               "column": 8
             },
             "end": {
-              "line": 133,
+              "line": 144,
               "column": 9
             }
           },
@@ -5132,11 +5343,11 @@
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 151,
+              "line": 162,
               "column": 8
             },
             "end": {
-              "line": 154,
+              "line": 165,
               "column": 9
             }
           },
@@ -5145,16 +5356,52 @@
           "inheritedFrom": "GraphQLQuery"
         },
         {
+          "name": "network-status",
+          "description": "The current status of a query’s execution.",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 181,
+              "column": 8
+            },
+            "end": {
+              "line": 184,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "number",
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "name": "stale",
+          "description": "",
+          "sourceRange": {
+            "file": "graphql-query.html",
+            "start": {
+              "line": 186,
+              "column": 8
+            },
+            "end": {
+              "line": 189,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "boolean",
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
           "name": "client-name",
           "description": "Connect to a different client.",
           "sourceRange": {
             "file": "graphql-query.html",
             "start": {
-              "line": 169,
+              "line": 194,
               "column": 8
             },
             "end": {
-              "line": 171,
+              "line": 196,
               "column": 9
             }
           },
@@ -5165,16 +5412,18 @@
           "name": "last-error",
           "description": "Last error, if any.",
           "sourceRange": {
+            "file": "graphql-query.html",
             "start": {
-              "line": 76,
+              "line": 201,
               "column": 8
             },
             "end": {
-              "line": 80,
+              "line": 205,
               "column": 9
             }
           },
-          "metadata": {}
+          "metadata": {},
+          "inheritedFrom": "GraphQLQuery"
         },
         {
           "name": "host-loading",
@@ -5185,11 +5434,12 @@
               "column": 8
             },
             "end": {
-              "line": 71,
+              "line": 73,
               "column": 9
             }
           },
-          "metadata": {}
+          "metadata": {},
+          "type": "boolean"
         }
       ],
       "events": [
@@ -5197,7 +5447,8 @@
           "type": "CustomEvent",
           "name": "error",
           "description": "error",
-          "metadata": {}
+          "metadata": {},
+          "inheritedFrom": "GraphQLQuery"
         },
         {
           "type": "CustomEvent",
@@ -5208,8 +5459,29 @@
         },
         {
           "type": "CustomEvent",
+          "name": "network-status-changed",
+          "description": "Fired when the `networkStatus` property changes.",
+          "metadata": {},
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "type": "CustomEvent",
+          "name": "stale-changed",
+          "description": "Fired when the `stale` property changes.",
+          "metadata": {},
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "type": "CustomEvent",
           "name": "last-error-changed",
           "description": "Fired when the `lastError` property changes.",
+          "metadata": {},
+          "inheritedFrom": "GraphQLQuery"
+        },
+        {
+          "type": "CustomEvent",
+          "name": "host-loading-changed",
+          "description": "Fired when the `hostLoading` property changes.",
           "metadata": {}
         }
       ],

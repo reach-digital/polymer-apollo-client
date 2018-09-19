@@ -68,15 +68,8 @@ this.$.contactMutation.execute().then((result) => {
         },
 
         hostLoading: {
-          value: false
-        },
-
-        /**
-         * Last error, if any.
-         */
-        lastError: {
-          value: null,
-          readOnly: true,
+          type: Boolean,
+          value: false,
           notify: true
         }
       };
@@ -113,18 +106,7 @@ this.$.contactMutation.execute().then((result) => {
         })
         .catch((error) => {
           this._handleError(error);
-          console.error('There was an error sending the query', error);
         });
-    }
-
-  /**
-   * Fired when an error is received.
-   *
-   * @event error
-   */
-    _handleError(error) {
-      this.lastError = error;
-      this.dispatchEvent(new CustomEvent('error', { bubbles: true, composed: true, detail: error }))
     }
   }
 
