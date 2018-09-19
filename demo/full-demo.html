@@ -51,7 +51,11 @@
                   value="{{search}}">
               </paper-input>
 
-              <graphql-query variables$='{"search": "[[search]]"}' result="{{data}}">
+              <graphql-query
+                  id="query"
+                  fetch-policy="cache-and-network"
+                  variables$='{"search": "[[search]]"}'
+                  result="{{data}}">
                 query queryOperationName ($search: String) {
                   posts(where: {content_contains: $search}) {
                     id
@@ -61,6 +65,8 @@
                   }
                 }
               </graphql-query>
+
+              <button onclick="document.getElementById('query').execute()">Refresh</button>
 
               <template is="dom-repeat" items="[[data.posts]]" as="post">
                 <ul>
@@ -141,7 +147,13 @@
                   value="{{content}}">
               </paper-input>
 
-              <graphql-mutation id="createPostMutation" variables$='{"title": "[[title]]", "content": "[[content]]"}' result="{{data}}">
+              <graphql-mutation
+                  id="createPostMutation"
+                  variables$='{
+                    "title": "[[title]]",
+                    "content": "[[content]]"
+                  }'
+                  result="{{data}}">
                 mutation createPostMutationOperationName(
                   $title: String!
                   $content: String!
@@ -194,7 +206,14 @@
                   value="{{content}}">
               </paper-input>
 
-              <graphql-mutation id="updatePostMutation" variables$='{"id": "[[id]]", "title": "[[title]]", "content": "[[content]]"}' result="{{data}}">
+              <graphql-mutation
+                  id="updatePostMutation"
+                  variables$='{
+                    "id": "[[id]]",
+                    "title": "[[title]]",
+                    "content": "[[content]]"
+                  }'
+                  result="{{data}}">
                 mutation updatePostMutationOperationName(
                   $id: ID!
                   $title: String!
@@ -239,7 +258,10 @@
                   value="{{id}}">
               </paper-input>
 
-              <graphql-mutation id="deletePostMutation" variables$='{"id": "[[id]]"}' result="{{data}}">
+              <graphql-mutation
+                  id="deletePostMutation"
+                  variables$='{"id": "[[id]]"}'
+                  result="{{data}}">
                 mutation deletePostMutationOperationName($id: ID!) {
                   deletePost(where: {id: $id}) {
                     id

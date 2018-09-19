@@ -79,34 +79,45 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
         },
 
         /**
-         * Set the `fetchPolicy` option for the query.
-         * [Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchPolicy)
+         * `fetchPolicy` determines where the client may return a result from. The options are:
+         * - `cache-first` (default): return result from cache. Only fetch from network if cached result is not available.
+         * - `cache-and-network`: return result from cache first (if it exists), then return network result once it's available.
+         * - `cache-only`: return result from cache if available, fail otherwise.
+         * - `no-cache`: return result from network, fail if network call doesn't succeed, don't save to cache.
+         * - `network-only`: return result from network, fail if network call doesn't succeed, save to cache.
+         * - `standby`: only for queries that aren't actively watched, but should be available for `refetch` and `updateQueries`.
          */
         fetchPolicy: {
           type: String
         },
 
         /**
-         * Set the `fetchResults` option for the query.
-         * [Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-fetchResults)
+         * Whether or not to fetch results.
          */
         fetchResults: {
-          type: Object,
-          value: null
+          type: Boolean
         },
 
         /**
-         * Set the `pollInterval` option for the query.
-         * [Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-pollInterval)
+         * `errorPolicy` determines the level of events for errors in the execution result. The options are:
+         * - `none` (default): any errors from the request are treated like runtime errors and the observable is stopped (XXX this is default to lower breaking changes going from AC 1.0 => 2.0).
+         * - `ignore`: errors from the request do not stop the observable, but also don't call `next`.
+         * - `all`: errors are treated like data and will notify observables.
+         */
+        errorPolicy: {
+          type: String
+        },
+
+        /**
+         * The time interval (in milliseconds) on which this query should be
+         * refetched from the server.
          */
         pollInterval: {
           type: Number
         },
 
         /**
-         * Whether or not updates to the network status or network error should
-         * trigger re-rendering of your component.
-         * [Apollo Client Docs](http://dev.apollodata.com/react/api-queries.html#graphql-config-options-notifyOnNetworkStatusChange)
+         * Whether or not updates to the network status should trigger next on the observer of this query.
          */
         notifyOnNetworkStatusChange: {
           type: Boolean
@@ -161,7 +172,21 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
          * @protected
          */
         hostLoading: {
-          value: true
+          type: Boolean,
+          notify: true
+        },
+
+        /**
+         * The current status of a query’s execution.
+         */
+        networkStatus: {
+          type: Number,
+          notify: true
+        },
+
+        stale: {
+          type: Boolean,
+          notify: true
         },
 
         /**
@@ -277,12 +302,12 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
     execute(params) {
       let validationResult = this.validate(params);
       if (validationResult.error) {
-        window.console.error(validationResult.msg, this);
+        console.error(validationResult.msg, this);
         return;
       }
-      this.hostLoading = true;
       const {
         fetchPolicy,
+        errorPolicy,
         fetchResults,
         notifyOnNetworkStatusChange,
         pollInterval,
@@ -298,6 +323,7 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
       }
       const observableQuery = client.watchQuery({
         fetchPolicy,
+        errorPolicy,
         fetchResults,
         notifyOnNetworkStatusChange,
         pollInterval,
@@ -305,11 +331,11 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
         variables,
       }).subscribe({
         next: (result) => {
-          if (result.data) {
-            this.hostLoading = result.loading;
-            this.result = result.data;
-          } else if (result.errors) {
-            console.error(result.errors.message);
+          this.hostLoading = result.loading;
+          this.networkStatus = result.networkStatus;
+          this.stale = result.stale;
+          this.result = result.data;
+          if (result.errors) {
             this._handlerError(result.errors.message);
           }
         }
@@ -347,8 +373,9 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
      * @event error
      */
     _handleError(error) {
+      console.error(error);
       this.lastError = error;
-      this.dispatchEvent(new CustomEvent('error', { bubbles: true, composed: true, detail: error }))
+      this.dispatchEvent(new CustomEvent('error', { bubbles: true, composed: true, detail: error }));
     }
   }
 
