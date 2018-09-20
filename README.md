@@ -35,7 +35,7 @@ Easy integration with GraphQL.
 
 <graphql-client config='{"uri": "https://api.graphcms.com/simple/v1/swapi"}'></graphql-client>
 
-<graphql-query result="{{starShipData}}">
+<graphql-query result="{{data}}">
   query {
     Starship(name: "Millennium Falcon") {
       name
@@ -71,7 +71,7 @@ Easy integration with GraphQL.
 <!-- Define a graphql-client somewhere once -->
 <graphql-client config='{"uri": "https://api.graphcms.com/simple/v1/swapi"}'></graphql-client>
 
-<graphql-query result="{{starShipData}}">
+<graphql-query result="{{data}}">
   query {
     Starship(name: "Millennium Falcon") {
       name
