@@ -8,7 +8,7 @@ Easy integration with GraphQL.
 ```html
 <custom-element-demo>
   <template>
-    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../webcomponentsjs/webcomponents-loader.js"></script>
     <script src="build/apollo-client.js"></script>
     <link rel="import" href="graphql-client.html">
     <link rel="import" href="graphql-query.html">
