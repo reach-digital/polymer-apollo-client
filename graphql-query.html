@@ -364,7 +364,7 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
     }
 
     _getClient() {
-      return window.Apollo.client;
+      return window.Apollo.namedClient[this.clientName]
     }
 
     /**
