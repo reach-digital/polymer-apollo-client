@@ -52,8 +52,6 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
 -->
 
 <script>
-  window.PolymerApolloClient = window.PolymerApolloClient || {};
-
   class GraphQLQuery extends MatryoshkaLoaderMixin(Polymer.Element) {
     static get is() {
       return 'graphql-query';
@@ -193,7 +191,7 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
          * Connect to a different client.
          */
         clientName: {
-          value: window.PolymerApolloClient.CLIENT_NAME_DEFAULT
+          value: CLIENT_NAME_DEFAULT
         },
 
         /**
