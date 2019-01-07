@@ -5,7 +5,8 @@
     "apollo-client.html"
   ],
   "authors": [
-    "Paul Hachmang <paul@h-o.nl>"
+    "Paul Hachmang <paul@h-o.nl>",
+    "Alexey Rodionov <fluorescent.hallucinogen@gmail.com>"
   ],
   "license": "MIT",
   "keywords": [
@@ -26,7 +27,11 @@
     "file",
     "upload"
   ],
-  "homepage": "https://github.com/reach-digital/polymer-apollo-client",
+  "homepage": "https://webcomponents.org/element/reach-digital/polymer-apollo-client",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reach-digital/polymer-apollo-client.git"
+  },
   "ignore": [
     "**/.*",
     "node_modules",

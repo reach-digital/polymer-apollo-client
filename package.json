@@ -1,7 +1,4 @@
 {
-  "name": "apollo-client",
-  "version": "2.3.0",
-  "description": "",
   "main": "apollo-client.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -28,6 +25,9 @@
     "graphql-tag": "^2.5.0",
     "subscriptions-transport-ws": "^0.9.12"
   },
-  "author": "Paul Hachmang",
+  "contributors": [
+    "Paul Hachmang <paul@h-o.nl>",
+    "Alexey Rodionov <fluorescent.hallucinogen@gmail.com>"
+  ],
   "license": "MIT"
 }
