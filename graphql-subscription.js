@@ -1,0 +1,326 @@
+/*<link rel="import" href="graphql-client.html"/>*/
+/**
+## GraphQL subscription
+
+An easy interface to create GraphQL subscription in your system.
+
+_Note: to use `<graphql-subscription>` you should import `build/apollo-client-subscription.js`
+instead of `build/apollo-client.js`:_
+
+```html
+<script src="bower_components/polymer-apollo-client/build/apollo-client-subscription.js"></script>
+```
+
+## Building a subscription
+
+```html
+<link rel="import" src="bower_components/polymer-apollo-client/graphql-subscription.html">
+```
+
+```html
+<graphql-subscription variables='{"identifier": "home_hero"}' result="{{result}}">
+  subscription ($identifier: String!) {
+    block: Block(identifier: $identifier) {
+      id
+      title
+      content
+    }
+  }
+</graphql-subscription>
+```
+
+When the subscription resolves the resulting data will be placed in the `result` property.
+
+## Using the result:
+```html
+<h1>[[result.block.title]]</h1>
+<div class="content">[[result.block.content]]</div>
+```
+
+Changing the variables or the query will automatically re-fetch all the information.
+
+## Detecting loading states
+
+The query element implements the `MatryoshkaLoaderMixin` and thus propagates the loading state of the query throughout the system.
+
+@group Apollo Client
+@polymer
+@customElement
+@demo demo/full-demo.html Full demo
+*/
+/*
+  FIXME(polymer-modulizer): the above comments were extracted
+  from HTML and may be out of place here. Review them and
+  then delete this comment!
+*/
+import '/node_modules/@reachdigital/matryoshka-loader/matryoshka-loader-mixin.js';
+
+import './graphql-client.js';
+import { idlePeriod } from '@polymer/polymer/lib/utils/async.js';
+import { PolymerElement } from '@polymer/polymer/polymer-element.js';
+class GraphQLSubscription extends MatryoshkaLoaderMixin(PolymerElement) {
+  static get importMeta() {
+    return import.meta;
+  }
+
+  static get is() {
+    return 'graphql-subscription';
+  }
+
+  static get properties() {
+    return {
+      /**
+       * Copy of the query provided in `this.innerText`, if you want to programmatically change the query use
+       * `this.innerText`.
+       * @private
+       */
+      query: {
+        type: Object
+      },
+
+      /**
+       * JSON Object of the variables passed with the query.
+       */
+      variables: {
+        type: Object,
+        value: {}
+      },
+
+      /**
+       * This allows you to defer the query until a later moment using `Polymer.Async.idlePeriod`. This solves an issue
+       * with rendering critical data first and deferring non-critical information to a later moment.
+       */
+      defer: {
+        type: Boolean,
+        value: false
+      },
+
+      /**
+       * When this is set to `true` it will not execute the query when the properties `query`+`variables`+`defer` have a
+       * value. To run the query set `hold` to `false` or run `execute()`.
+       *
+       * You might want to set `hostLoading` to `false` when you do this.
+       */
+      hold: {
+        type: Boolean,
+        value: false
+      },
+
+      /**
+       * It is used to halt the execution of the query when not all the variables are provided yet.
+       * @private
+       */
+      requiredVariables: {
+        type: Object,
+        computed: '_computeRequiredVariables(query)'
+      },
+
+      /**
+       * Object of the resulting data of the subscription.
+       * [Apollo Client Docs](http://dev.apollodata.com/react/queries.html#default-result-props)
+       */
+      result: {
+        type: Object,
+        notify: true
+      },
+
+      /**
+       * Sets the default value of `hostLoading` to `true`, this means this element will always propagate that it is
+       * loading.
+       * @todo, when `defer` is set, is this properly handled?
+       * @protected
+       */
+      hostLoading: {
+        value: true
+      },
+
+      /**
+       * Connect to a different client.
+       */
+      clientName: {
+        value: CLIENT_NAME_DEFAULT
+      },
+
+      /**
+       * Last error, if any.
+       */
+      lastError: {
+        value: null,
+        readOnly: true,
+        notify: true
+      }
+    };
+  }
+
+  static get observers() {
+    return [
+      '_onRunQuery(defer, hold, query, variables)'
+    ]
+  }
+
+  /**
+   * Since the query should never be shown, we always need to hide it.
+   */
+  constructor() {
+    super();
+    this.style.display = 'none';
+  }
+
+  /**
+   *
+   */
+  connectedCallback() {
+    super.connectedCallback();
+    var observer = new MutationObserver(this._updateQuery);
+    observer.observe(this, { subtree: true, characterData: true });
+    this._updateQuery();
+  }
+
+  /**
+   * Actual method to fetch all the data. This is called when one of the properties: `query`, `variables`, `defer` or `hold` is changed.
+   * @protected
+   */
+  _onRunQuery(defer, hold) {
+    if (hold) {
+      return;
+    }
+
+    if (this.validate().error) {
+      return;
+    }
+
+    if (defer) {
+      idlePeriod.run(this.execute.bind(this));
+    } else {
+      this.execute();
+    }
+  }
+
+  /**
+   * Validate if all the required properties are properly filled in and return the error if there is something wrong.
+   * @return {Object}
+   */
+  validate(params = {}) {
+    const variables = params.variables || this.variables;
+    if (this.query === undefined) {
+      return {
+        error: true,
+        msg: 'Query not yet defined',
+      };
+    }
+    if (variables == null) {
+      return {
+        error: true,
+        // eslint-disable-next-line max-len
+        msg: 'Variables are undefined should be an empty object if you don not want to send anything',
+      };
+    }
+    if (this.defer === undefined) {
+      return {
+        error: true,
+        // eslint-disable-next-line max-len
+        msg: 'Defer is undefined, accidentally set it to undefined should be true or false?',
+      };
+    }
+    if (this.requiredVariables.length &&
+      Object.keys(variables).length <= 0) {
+      let emptyVariables = this.requiredVariables.filter((variable) => {
+        return variables[variable] === undefined;
+      });
+      return {
+        error: true,
+        msg: 'Not all required variables are submitted',
+        variables: emptyVariables,
+      };
+    }
+    return {
+      error: false,
+    };
+  }
+
+  /**
+   * Execute the query/mutation directly (used in combination with `hold` or with `<graphql-mutation>`).
+   *
+   * @return {ObservableQuery}
+   */
+  execute(params) {
+    let validationResult = this.validate(params);
+    if (validationResult.error) {
+      window.console.error(validationResult.msg, this);
+      return;
+    }
+    this.hostLoading = true;
+    const {
+      fetchPolicy,
+      fetchResults,
+      notifyOnNetworkStatusChange,
+      pollInterval,
+      query,
+      variables,
+    } = this;
+
+    const client = this._getClient();
+    if (!client) {
+      throw new Error(
+        'There is no GraphQL client available. ' +
+        'Initialize one on window.Apollo.client'
+      );
+    }
+    let observableQuery = client.subscribe({
+      fetchPolicy,
+      fetchResults,
+      notifyOnNetworkStatusChange,
+      pollInterval,
+      query: this.query,
+      variables: this.variables
+    }).subscribe({
+      next: (result) => {
+        if (result.data) {
+          this.hostLoading = result.loading;
+          this.result = result.data;
+        } else if (result.errors) {
+          console.error(result.errors.message);
+          this._handlerError(result.errors.message);
+        }
+      }
+    });
+    return observableQuery;
+  }
+
+  _computeRequiredVariables(query) {
+    var requiredVariables = [];
+    query.definitions.forEach(function (definition) {
+      if (definition.variableDefinitions) {
+        definition.variableDefinitions.forEach(function (variable) {
+          if (variable.type.kind === 'NonNullType') {
+            requiredVariables.push(variable.variable.name.value)
+          }
+        });
+      }
+    });
+
+    return requiredVariables;
+  }
+
+  _updateQuery() {
+    const query = this.textContent;
+    if (!query) return;
+    this.query = window.Apollo.gql([query]);
+  }
+
+  _getClient() {
+    return window.Apollo.namedClient[this.clientName]
+  }
+
+  /**
+   * Fired when an error is received.
+   *
+   * @event error
+   */
+  _handleError(error) {
+    this.lastError = error;
+    this.dispatchEvent(new CustomEvent('error', { bubbles: true, composed: true, detail: error }))
+  }
+}
+
+customElements.define(GraphQLSubscription.is, GraphQLSubscription);
