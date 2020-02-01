@@ -49,13 +49,6 @@ this.$.contactMutation.execute().then((result) => {
 @group ApolloClient
 @polymer
 @customElement
-@demo demo/full-demo.html Full demo
-@demo demo/file-upload.html File upload
-*/
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
 */
 import './graphql-query.js';
 

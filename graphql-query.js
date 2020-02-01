@@ -42,19 +42,10 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
 @group Apollo Client
 @polymer
 @customElement
-@demo demo/graphql-query-simple.html Simple query
-@demo demo/graphql-query-variables.html Simple query with variables
-@demo demo/graphql-query-defer.html Complex deferred query
-@demo demo/full-demo.html Full demo
 */
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
-import '/node_modules/@reachdigital/matryoshka-loader/matryoshka-loader-mixin.js';
-
-import './graphql-client.js';
+import { MatryoshkaLoaderMixin } from '@reachdigital/matryoshka-loader/matryoshka-loader-mixin.js';
+ 
+import { CLIENT_NAME_DEFAULT } from './graphql-client.js';
 import { idlePeriod } from '@polymer/polymer/lib/utils/async.js';
 import { PolymerElement } from '@polymer/polymer/polymer-element.js';
 class GraphQLQuery extends MatryoshkaLoaderMixin(PolymerElement) {

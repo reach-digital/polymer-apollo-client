@@ -57,14 +57,9 @@ and at the `webpack.config.js` to see how to compile your version.
 @demo demo/graphql-query-simple.html Simple query
 @demo demo/full-demo.html Full demo
 */
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
-import { PolymerElement } from '/node_modules/@polymer/polymer/polymer-element.js';
+import { PolymerElement } from '@polymer/polymer/polymer-element.js';
 
-const CLIENT_NAME_DEFAULT = 'default';
+export const CLIENT_NAME_DEFAULT = 'default';
 
 class GraphQLClient extends PolymerElement {
   static get importMeta() {
