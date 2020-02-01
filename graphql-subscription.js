@@ -47,7 +47,7 @@ The query element implements the `MatryoshkaLoaderMixin` and thus propagates the
 @polymer
 @customElement
 */
-import '@reachdigital/matryoshka-loader/matryoshka-loader-mixin.js';
+import { MatryoshkaLoaderMixin } from '@reachdigital/matryoshka-loader/matryoshka-loader-mixin.js';
 
 import { CLIENT_NAME_DEFAULT } from './graphql-client.js';
 import { idlePeriod } from '@polymer/polymer/lib/utils/async.js';
