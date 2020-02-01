@@ -42,11 +42,5 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
     "matryoshka-loader": "reach-digital/polymer-matryoshka-loader#^0.8.0"
-  },
-  "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^3.0.0",
-    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
-    "paper-input": "PolymerElements/paper-input#^2.0.0",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
   }
 }
