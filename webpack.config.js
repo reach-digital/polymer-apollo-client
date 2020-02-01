@@ -4,21 +4,24 @@ const BabiliPlugin = require('babili-webpack-plugin');
 
 module.exports = {
   entry: {
-    'apollo-client': path.resolve(__dirname, 'apollo-client.js'),
+    'apollo-client': path.resolve(__dirname, 'apollo-client-init.js'),
     'apollo-client-subscription': path.resolve(__dirname, 'apollo-client-subscription.js'),
-    'apollo-client-subscription-file-upload': path.resolve(__dirname, 'apollo-client-subscription-file-upload.js')
+    'apollo-client-subscription-file-upload': path.resolve(
+      __dirname,
+      'apollo-client-subscription-file-upload.js',
+    ),
   },
   output: {
     library: 'Apollo',
-    libraryTarget: 'var',
-    path: path.resolve(__dirname+'/build'),
-    filename: '[name].js'
+    libraryTarget: 'window',
+    path: path.resolve(__dirname + '/build'),
+    filename: '[name].js',
   },
   plugins: [
     new webpack.DefinePlugin({
-      "process.env": { NODE_ENV: "'production'" }
+      'process.env': { NODE_ENV: "'production'" },
     }),
-    new BabiliPlugin()
+    new BabiliPlugin(),
   ],
   module: {
     rules: [
@@ -28,10 +31,10 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env']
-          }
-        }
-      }
-    ]
-  }
+            presets: ['env'],
+          },
+        },
+      },
+    ],
+  },
 };

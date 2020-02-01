@@ -64,14 +64,14 @@ class GraphQLMutation extends GraphQLQuery {
   static get properties() {
     return {
       hold: {
-        value: true
+        value: true,
       },
 
       hostLoading: {
         type: Boolean,
         value: false,
-        notify: true
-      }
+        notify: true,
+      },
     };
   }
 
@@ -94,17 +94,17 @@ class GraphQLMutation extends GraphQLQuery {
     const client = this._getClient();
     if (!client) {
       throw new Error(
-        'There is no GraphQL client available. ' +
-        'Initialize one on window.Apollo.client'
+        'There is no GraphQL client available. ' + 'Initialize one on window.Apollo.client',
       );
     }
 
-    return client.mutate(Object.assign({ mutation, variables }, params))
-      .then((result) => {
+    return client
+      .mutate(Object.assign({ mutation, variables }, params))
+      .then(result => {
         this.hostLoading = false;
         this.result = result.data;
       })
-      .catch((error) => {
+      .catch(error => {
         this._handleError(error);
       });
   }

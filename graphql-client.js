@@ -76,21 +76,21 @@ class GraphQLClient extends PolymerElement {
        * Will be passed to `HttpLink()`.
        */
       config: {
-        type: Object
+        type: Object,
       },
 
       /**
        * Will be passed to `WebSocketLink()`.
        */
       wsConfig: {
-        type: Object
+        type: Object,
       },
 
       /**
        * Will be passed to `ApolloClient()`.
        */
       apolloConfig: {
-        type: Object
+        type: Object,
       },
 
       /**
@@ -98,8 +98,8 @@ class GraphQLClient extends PolymerElement {
        */
       clientName: {
         type: String,
-        value: CLIENT_NAME_DEFAULT
-      }
+        value: CLIENT_NAME_DEFAULT,
+      },
     };
   }
 
@@ -107,13 +107,17 @@ class GraphQLClient extends PolymerElement {
    * @protected
    */
   connectedCallback() {
-    super.connectedCallback()
+    super.connectedCallback();
 
-    window.Apollo.namedClient[this.clientName] = window.Apollo.init(this.config, this.wsConfig, this.apolloConfig);
+    window.Apollo.namedClient[this.clientName] = window.Apollo.init(
+      this.config,
+      this.wsConfig,
+      this.apolloConfig,
+    );
 
     if (this.clientName === CLIENT_NAME_DEFAULT) {
-      window.Apollo.client = window.Apollo.namedClient[CLIENT_NAME_DEFAULT]
-      window.__APOLLO_CLIENT__ = window.Apollo.client
+      window.Apollo.client = window.Apollo.namedClient[CLIENT_NAME_DEFAULT];
+      window.__APOLLO_CLIENT__ = window.Apollo.client;
     }
   }
 }

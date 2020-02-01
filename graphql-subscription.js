@@ -69,7 +69,7 @@ class GraphQLSubscription extends MatryoshkaLoaderMixin(PolymerElement) {
        * @private
        */
       query: {
-        type: Object
+        type: Object,
       },
 
       /**
@@ -77,7 +77,7 @@ class GraphQLSubscription extends MatryoshkaLoaderMixin(PolymerElement) {
        */
       variables: {
         type: Object,
-        value: {}
+        value: {},
       },
 
       /**
@@ -86,7 +86,7 @@ class GraphQLSubscription extends MatryoshkaLoaderMixin(PolymerElement) {
        */
       defer: {
         type: Boolean,
-        value: false
+        value: false,
       },
 
       /**
@@ -97,7 +97,7 @@ class GraphQLSubscription extends MatryoshkaLoaderMixin(PolymerElement) {
        */
       hold: {
         type: Boolean,
-        value: false
+        value: false,
       },
 
       /**
@@ -106,7 +106,7 @@ class GraphQLSubscription extends MatryoshkaLoaderMixin(PolymerElement) {
        */
       requiredVariables: {
         type: Object,
-        computed: '_computeRequiredVariables(query)'
+        computed: '_computeRequiredVariables(query)',
       },
 
       /**
@@ -115,7 +115,7 @@ class GraphQLSubscription extends MatryoshkaLoaderMixin(PolymerElement) {
        */
       result: {
         type: Object,
-        notify: true
+        notify: true,
       },
 
       /**
@@ -125,14 +125,14 @@ class GraphQLSubscription extends MatryoshkaLoaderMixin(PolymerElement) {
        * @protected
        */
       hostLoading: {
-        value: true
+        value: true,
       },
 
       /**
        * Connect to a different client.
        */
       clientName: {
-        value: CLIENT_NAME_DEFAULT
+        value: CLIENT_NAME_DEFAULT,
       },
 
       /**
@@ -141,15 +141,13 @@ class GraphQLSubscription extends MatryoshkaLoaderMixin(PolymerElement) {
       lastError: {
         value: null,
         readOnly: true,
-        notify: true
-      }
+        notify: true,
+      },
     };
   }
 
   static get observers() {
-    return [
-      '_onRunQuery(defer, hold, query, variables)'
-    ]
+    return ['_onRunQuery(defer, hold, query, variables)'];
   }
 
   /**
@@ -206,7 +204,8 @@ class GraphQLSubscription extends MatryoshkaLoaderMixin(PolymerElement) {
       return {
         error: true,
         // eslint-disable-next-line max-len
-        msg: 'Variables are undefined should be an empty object if you don not want to send anything',
+        msg:
+          'Variables are undefined should be an empty object if you don not want to send anything',
       };
     }
     if (this.defer === undefined) {
@@ -216,9 +215,8 @@ class GraphQLSubscription extends MatryoshkaLoaderMixin(PolymerElement) {
         msg: 'Defer is undefined, accidentally set it to undefined should be true or false?',
       };
     }
-    if (this.requiredVariables.length &&
-      Object.keys(variables).length <= 0) {
-      let emptyVariables = this.requiredVariables.filter((variable) => {
+    if (this.requiredVariables.length && Object.keys(variables).length <= 0) {
+      let emptyVariables = this.requiredVariables.filter(variable => {
         return variables[variable] === undefined;
       });
       return {
@@ -256,38 +254,39 @@ class GraphQLSubscription extends MatryoshkaLoaderMixin(PolymerElement) {
     const client = this._getClient();
     if (!client) {
       throw new Error(
-        'There is no GraphQL client available. ' +
-        'Initialize one on window.Apollo.client'
+        'There is no GraphQL client available. ' + 'Initialize one on window.Apollo.client',
       );
     }
-    let observableQuery = client.subscribe({
-      fetchPolicy,
-      fetchResults,
-      notifyOnNetworkStatusChange,
-      pollInterval,
-      query: this.query,
-      variables: this.variables
-    }).subscribe({
-      next: (result) => {
-        if (result.data) {
-          this.hostLoading = result.loading;
-          this.result = result.data;
-        } else if (result.errors) {
-          console.error(result.errors.message);
-          this._handlerError(result.errors.message);
-        }
-      }
-    });
+    let observableQuery = client
+      .subscribe({
+        fetchPolicy,
+        fetchResults,
+        notifyOnNetworkStatusChange,
+        pollInterval,
+        query: this.query,
+        variables: this.variables,
+      })
+      .subscribe({
+        next: result => {
+          if (result.data) {
+            this.hostLoading = result.loading;
+            this.result = result.data;
+          } else if (result.errors) {
+            console.error(result.errors.message);
+            this._handlerError(result.errors.message);
+          }
+        },
+      });
     return observableQuery;
   }
 
   _computeRequiredVariables(query) {
     var requiredVariables = [];
-    query.definitions.forEach(function (definition) {
+    query.definitions.forEach(function(definition) {
       if (definition.variableDefinitions) {
-        definition.variableDefinitions.forEach(function (variable) {
+        definition.variableDefinitions.forEach(function(variable) {
           if (variable.type.kind === 'NonNullType') {
-            requiredVariables.push(variable.variable.name.value)
+            requiredVariables.push(variable.variable.name.value);
           }
         });
       }
@@ -303,7 +302,7 @@ class GraphQLSubscription extends MatryoshkaLoaderMixin(PolymerElement) {
   }
 
   _getClient() {
-    return window.Apollo.namedClient[this.clientName]
+    return window.Apollo.namedClient[this.clientName];
   }
 
   /**
@@ -313,7 +312,7 @@ class GraphQLSubscription extends MatryoshkaLoaderMixin(PolymerElement) {
    */
   _handleError(error) {
     this.lastError = error;
-    this.dispatchEvent(new CustomEvent('error', { bubbles: true, composed: true, detail: error }))
+    this.dispatchEvent(new CustomEvent('error', { bubbles: true, composed: true, detail: error }));
   }
 }
 
